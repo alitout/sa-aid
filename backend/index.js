@@ -19,7 +19,20 @@ database.once('connected', () => { // database.once means it will run only one t
 const app = express();
 
 app.use(express.json());
-app.use('/api', routes);
+app.use('/', routes);
+
+// Organization Routes
+const organizationRouter = require('./Routes/organization/organizationRoutes'); // import the organizationRoutes file
+app.use('/', organizationRouter); // use the organizationRoutes file
+
+// Beneficiary Routes
+const beneficiaryRouter = require('./Routes/Beneficiary/beneficiaryRoutes'); // import the beneficiaryRoutes file
+app.use('/', beneficiaryRouter); // use the beneficiaryRoutes file
+
+// Family Routes
+const familyRouter = require('./Routes/Family/familyRoutes'); // import the familyRoutes file
+app.use('/', familyRouter); // use the familyRoutes file
+
 app.listen(3000, () => {
     console.log(`Server Started at ${3000}`)
 })
