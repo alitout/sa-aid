@@ -33,6 +33,10 @@ app.use('/', beneficiaryRouter); // use the beneficiaryRoutes file
 const familyRouter = require('./Routes/Family/familyRoutes'); // import the familyRoutes file
 app.use('/', familyRouter); // use the familyRoutes file
 
+// User Routes
+const userRouter = require('./Routes/User/userRoutes'); // import the userRoutes file
+app.use('/', userRouter); // use the userRoutes file
+
 app.listen(3000, () => {
     console.log(`Server Started at ${3000}`)
 })
