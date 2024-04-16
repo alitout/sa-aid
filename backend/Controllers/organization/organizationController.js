@@ -86,10 +86,42 @@ const deleteOrganizationById = async (req, res) => {
     }
 };
 
+// Organization login
+const loginOrganization = async (req, res) => {
+    try {
+        const organization = await Organization.findOne({ OrganizationEmail: req.body.OrganizationEmail });
+        if (!organization) {
+            return res.status(404).send("Organization not found");
+        }
+        if (organization.OrganizationPassword !== req.body.OrganizationPassword) {
+            return res.status(400).send("Invalid Password");
+        }
+        res.status(200).json({
+            msg: "Organization Logged In Successfully",
+            data: organization,
+        });
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+};
+
+// Organization logout
+const logoutOrganization = async (req, res) => {
+    try {
+        res.status(200).json({
+            msg: "Organization Logged Out Successfully",
+        });
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+};
+
 module.exports = {
     registerOrganization,
     getAllOrganizations,
     getOrganizationById,
     updateOrganizationById,
-    deleteOrganizationById
+    deleteOrganizationById,
+    loginOrganization,
+    logoutOrganization
 };

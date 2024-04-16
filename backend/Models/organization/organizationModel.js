@@ -23,7 +23,15 @@ const organizationSchema = new mongoose.Schema({
     OrganizationPhone: {
         type: String,
         required: true
-    }
+    },
+    OrganizationEmail: {
+        type: String,
+        required: true
+    },
+    OrganizationPassword: {
+        type: String,
+        required: true
+    },
 });
 
 organizationSchema.pre('save', async function (next) {
