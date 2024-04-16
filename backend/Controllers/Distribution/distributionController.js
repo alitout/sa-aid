@@ -6,6 +6,7 @@ const createDistribution = async (req, res) => {
     const newDistribution = new Distribution({
         StockID: req.body.StockID,
         Quantity: req.body.Quantity,
+        HeadOfDistributionID: req.body.HeadOfDistributionID,
     });
     try {
         const savedDistribution = await newDistribution.save();
