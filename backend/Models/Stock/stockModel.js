@@ -10,6 +10,10 @@ const StockSchema = new mongoose.Schema({
     Quantity: {
         type: Number,
         required: true
+    },
+    ExpiryDate: {
+        type: Date,
+        required: true
     }
 });
 
