@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const Family = require("../Family/familyModel");
+
 
 const BeneficiarySchema = new mongoose.Schema({
     BeneficiaryID: { // رقم الهوية
@@ -8,8 +10,8 @@ const BeneficiarySchema = new mongoose.Schema({
     },
     FamilyID: {
         type: String,
-        required: true,
-        unique: true
+        ref: 'Family',
+        required: true
     },
     BeneficiaryFName: {
         type: String,
