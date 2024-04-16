@@ -5,6 +5,7 @@ const createStock = async (req, res) => {
     const newStock = new Stock({
         StockItemID: req.body.StockItemID,
         Quantity: req.body.Quantity,
+        ExpiryDate: req.body.ExpiryDate,
     });
     try {
         const savedStock = await newStock.save();
