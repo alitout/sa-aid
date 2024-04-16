@@ -44,7 +44,12 @@ const UserSchema = new mongoose.Schema({
     },
     UserRole: {
         type: String,
+        enum: ['distributions admin', 'beneficiaries admin', 'not admin'],
         required: true
+    },
+    isHeadOfDistribution: {
+        type: Boolean,
+        // required: true
     },
     UserOrganization: {
         type: String,
