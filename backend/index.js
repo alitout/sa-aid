@@ -37,6 +37,22 @@ app.use('/', familyRouter); // use the familyRoutes file
 const userRouter = require('./Routes/User/userRoutes'); // import the userRoutes file
 app.use('/', userRouter); // use the userRoutes file
 
+// Stock Item Routes
+const stockItemRouter = require('./Routes/Stock/stockItemRoutes'); // import the stockItemRoutes file
+app.use('/', stockItemRouter); // use the stockItemRoutes file
+
+// Stock Type Routes
+const stockTypeRouter = require('./Routes/Stock/stockTypeRoutes'); // import the stockTypeRoutes file
+app.use('/', stockTypeRouter); // use the stockTypeRoutes file
+
+// Stock Routes
+const stockRouter = require('./Routes/Stock/stockRoutes'); // import the stockRoutes file
+app.use('/', stockRouter); // use the stockItemRoutes file
+
+// Distribution Routes
+const distributionRouter = require('./Routes/Distribution/distributionRoutes'); // import the distributionRoutes file
+app.use('/', distributionRouter); // use the distributionRoutes file
+
 app.listen(3000, () => {
     console.log(`Server Started at ${3000}`)
 })
