@@ -6,7 +6,9 @@ const registerOrganization = async (req, res) => {
     const newOrganization = new Organization({
         OrganizationName: req.body.OrganizationName,
         OrganizationAddress: req.body.OrganizationAddress,
-        OrganizationPhone: req.body.OrganizationPhone
+        OrganizationPhone: req.body.OrganizationPhone,
+        OrganizationEmail: req.body.OrganizationEmail,
+        OrganizationPassword: req.body.OrganizationPassword
     });
 
     try {
