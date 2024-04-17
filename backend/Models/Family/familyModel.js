@@ -51,6 +51,10 @@ const familySchema = new mongoose.Schema({
     Type: {
         type: String,
         required: true
+    },
+    FamilyOrganization: {
+        type: String,
+        // required: true
     }
 });
 
