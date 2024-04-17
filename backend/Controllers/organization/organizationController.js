@@ -1,14 +1,21 @@
 const Organization = require("../../Models/organization/organizationModel");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secretKey = process.env.JWT_SECRET_KEY;
+const verifyToken = require("../../Functions/verifyToken");
 
 // Register Organization
 const registerOrganization = async (req, res) => {
 
+    const { OrganizationName, OrganizationAddress, OrganizationPhone, OrganizationEmail, OrganizationPassword } = req.body;
+    const hashedPassword = await bcrypt.hash(OrganizationPassword, 10);
+
     const newOrganization = new Organization({
-        OrganizationName: req.body.OrganizationName,
-        OrganizationAddress: req.body.OrganizationAddress,
-        OrganizationPhone: req.body.OrganizationPhone,
-        OrganizationEmail: req.body.OrganizationEmail,
-        OrganizationPassword: req.body.OrganizationPassword
+        OrganizationName: OrganizationName,
+        OrganizationAddress: OrganizationAddress,
+        OrganizationPhone: OrganizationPhone,
+        OrganizationEmail: OrganizationEmail,
+        OrganizationPassword: hashedPassword,
     });
 
     try {
@@ -37,7 +44,7 @@ const getAllOrganizations = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-}
+};
 
 // Get Organization By Id
 const getOrganizationById = async (req, res) => {
@@ -95,12 +102,18 @@ const loginOrganization = async (req, res) => {
         if (!organization) {
             return res.status(404).send("Organization not found");
         }
-        if (organization.OrganizationPassword !== req.body.OrganizationPassword) {
+        const validPassword = await bcrypt.compare(req.body.OrganizationPassword, organization.OrganizationPassword);
+        if (!validPassword) {
             return res.status(400).send("Invalid Password");
         }
+
+        // Create a JWT token
+        const token = jwt.sign({ OrganizationID: organization.OrganizationID, role: 'Organization' }, secretKey);
+
         res.status(200).json({
             msg: "Organization Logged In Successfully",
             data: organization,
+            token: token,
         });
     } catch (error) {
         res.status(400).json({ error: error });
