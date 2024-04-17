@@ -31,6 +31,7 @@ const BeneficiarySchema = new mongoose.Schema({
     },
     BeneficiarySex: { // male - female
         type: String,
+        enum: ['ذكر', 'أنثى'],
         required: true
     },
     BeneficiaryDOB: {
@@ -39,10 +40,12 @@ const BeneficiarySchema = new mongoose.Schema({
     },
     BeneficiarySocialState: { // متزوج - أعزب - أرملة - مطلقة
         type: String,
+        enum: ['أعزب' - 'عزباء' - 'متزوج' - 'متزوجة' - 'أرمل' - 'أرملة' - 'مطلق' - 'مطلقة'],
         required: true
     },
     BeneficiaryEducationLevel: { // أمي - ابتدائي - متوسط - ثانوي - جامعي
         type: String,
+        enum: ['أمي', 'ابتدائي', 'متوسط', 'ثانوي', 'جامعي'],
         required: true
     },
     BeneficiaryMajor: {
