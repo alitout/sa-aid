@@ -44,7 +44,7 @@ const UserSchema = new mongoose.Schema({
     },
     UserRole: {
         type: String,
-        enum: ['distributions admin', 'beneficiaries admin', 'not admin'],
+        enum: ['Distributions admin', 'Beneficiaries admin', 'not admin'],
         required: true
     },
     isHeadOfDistribution: {
@@ -54,7 +54,7 @@ const UserSchema = new mongoose.Schema({
     UserOrganization: {
         type: String,
         ref: 'Organization',
-        required: true
+        // required: true
     }
 });
 
