@@ -1,13 +1,5 @@
 const mongoose = require("mongoose");
-
-// Define the counter schema
-const counterSchema = new mongoose.Schema({
-    _id: String,
-    seq: { type: Number, default: 0 }
-});
-
-// Create the counter model
-const Counter = mongoose.model('Counter', counterSchema);
+const Counter = require("../Counter/counterModel");
 
 // Define the family schema
 const familySchema = new mongoose.Schema({
@@ -26,6 +18,9 @@ const familySchema = new mongoose.Schema({
     FamilyMemberIDs: {
         type: [String],
         default: []
+    },
+    HeadOfFamilyID: {
+        type: String,
     },
     FamilyCity: {
         type: String,

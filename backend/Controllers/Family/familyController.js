@@ -4,57 +4,38 @@ const Beneficiary = require('../../Models/Beneficiary/beneficiaryModel');
 
 // add Family
 const addFamily = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is a Beneficiaries Admin
+    if (req.user.role !== 'Beneficiaries admin') {
+        return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
+    }
+
+    const { FamilyCity, FamilyStreet, FamilyBuilding, FamilyFloor, FamilyHomePhoneNumber, HaveCar, Type } = req.body;
+    
+    const newFamily = new Family({
+        FamilyCity: FamilyCity,
+        FamilyStreet: FamilyStreet,
+        FamilyBuilding: FamilyBuilding,
+        FamilyFloor: FamilyFloor,
+        FamilyHomePhoneNumber: FamilyHomePhoneNumber,
+        HaveCar: HaveCar,
+        Type: Type,
+        FamilyOrganization: req.user.UserOrganization
+    });
     try {
-        // Check if the authenticated entity is a Beneficiaries Admin
-        if (req.user.role !== 'Beneficiaries admin') {
-            return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
-        }
-
-        const { FamilyCity, FamilyStreet, FamilyBuilding, FamilyFloor, FamilyHomePhoneNumber, HaveCar, Type } = req.body;
-        const OrganizationID = req.user.UserOrganization;
-
-        const newFamily = new Family({
-            FamilyCity: FamilyCity,
-            FamilyStreet: FamilyStreet,
-            FamilyBuilding: FamilyBuilding,
-            FamilyFloor: FamilyFloor,
-            FamilyHomePhoneNumber: FamilyHomePhoneNumber,
-            HaveCar: HaveCar,
-            Type: Type,
-            FamilyOrganization: OrganizationID
+        const oldFamily = await Family.findOne({
+            FamilyID:
+                req.body.FamilyID
         });
-
+        if (oldFamily) {
+            return res.status(400).send("Family already exists");
+        }
         const savedFamily = await newFamily.save();
-
-        // Create a new beneficiary for the head of the family
-        const newBeneficiary = new Beneficiary({
-            // Set the beneficiary fields here
-            FamilyID: savedFamily.FamilyID // Set the FamilyID to the _id of the newly created family
-        });
-
-        let savedBeneficiary;
-        try {
-            savedBeneficiary = await newBeneficiary.save();
-        } catch (error) {
-            // Handle error from saving beneficiary
-            console.error(error);
-            return res.status(500).json({ error: error.toString() });
-        }
-
-        // Update the family to set the headOfFamilyID to the BeneficiaryID of the newly created beneficiary
-        savedFamily.headOfFamilyID = savedBeneficiary.BeneficiaryID;
-        await savedFamily.save();
-
-
         res.status(200).json({
-            msg: "Family and head of family added successfully",
-            data: {
-                family: savedFamily,
-                headOfFamily: savedBeneficiary
-            }
+            msg: "Family Added Successfully",
+            data: savedFamily,
         });
     } catch (error) {
-        res.status(500).json({ error: error.toString() });
+        res.status(400).json({ error: error });
     }
 }];
 
