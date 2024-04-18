@@ -8,6 +8,7 @@ router.route("/api/family/getById/:id").get(familyController.getFamilyById);
 router.route("/api/family/update/:id").patch(familyController.updateFamilyById);
 router.route("/api/family/delete/:id").delete(familyController.deleteFamilyById);
 router.route("/api/family/getByOrganization").get(familyController.getFamiliesByOrganization);
+router.route("/api/family/getByType/:type").get(familyController.getFamiliesByType);
 
 
 module.exports = router;

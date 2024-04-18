@@ -15,10 +15,17 @@ const familySchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    headOfFamilyName: {
+    headOfFamilyID: {
         type: String,
-        required: true,
-        unique: true
+        // required: true
+    },
+    FamilyMembers: {
+        type: Number,
+        default: 0
+    },
+    FamilyMemberIDs: {
+        type: [String],
+        default: []
     },
     FamilyCity: {
         type: String,
@@ -38,10 +45,6 @@ const familySchema = new mongoose.Schema({
     },
     FamilyHomePhoneNumber: {
         type: String,
-        required: true
-    },
-    FamilyNumberOfPeople: {
-        type: Number,
         required: true
     },
     HaveCar: {
@@ -77,6 +80,7 @@ familySchema.pre('save', async function (next) {
         return next(error);
     }
 });
+
 
 const Family = mongoose.model('Family', familySchema);
 
