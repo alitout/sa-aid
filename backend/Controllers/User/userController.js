@@ -50,15 +50,17 @@ const addUser = [verifyToken, async (req, res) => {
 
 // Update User by id
 const updateUserById = [verifyToken, async (req, res) => {
-    // Check if the authenticated entity is an organization
-    if (req.user.role !== 'Organization') {
-        return res.status(403).send("Access Denied: Only an organization can update a user");
+    // Check if the authenticated entity is an organization or the user themselves
+    if (req.user.role !== 'Organization' && req.user.UserID !== req.params.id) {
+        return res.status(403).send("Access Denied: Only an organization or the user themselves can update a user");
     }
 
-    // Check if the user belongs to the authenticated organization
-    const user = await User.findOne({ UserID: req.params.id });
-    if (user.UserOrganization !== req.user.OrganizationID) {
-        return res.status(403).send("Access Denied: You can only update users that belong to your organization");
+    // If the authenticated entity is an organization, check if the user belongs to the authenticated organization
+    if (req.user.role === 'Organization') {
+        const user = await User.findOne({ UserID: req.params.id });
+        if (user.UserOrganization !== req.user.OrganizationID) {
+            return res.status(403).send("Access Denied: You can only update users that belong to your organization");
+        }
     }
 
     try {
@@ -108,56 +110,6 @@ const deleteUserById = [verifyToken, async (req, res) => {
 }];
 
 
-// Get User by Organization
-const getUserByOrganization = [verifyToken, async (req, res) => {
-    // Check if the authenticated entity is an organization or a Distributions Admin
-    if (req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
-        return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
-    }
-
-    // Check if the authenticated entity is trying to access users from their own organization
-    let userOrgId = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-    console.log("userOrgId:", userOrgId, "req.params.id:", req.params.id, "req.user:", req.user);
-    if (userOrgId !== req.params.id) {
-        return res.status(403).send("Access Denied: You can only access users from your own organization");
-    }
-
-    try {
-        const users = await User.find({ UserOrganization: req.params.id });
-        if (!users) {
-            return res.status(404).send("No Users found");
-        }
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-}];
-
-// Get User by Organization and Role
-const getUserByOrganizationAndRole = [verifyToken, async (req, res) => {
-    // Check if the authenticated entity is an organization or a Distributions Admin
-    if (req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
-        return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
-    }
-
-    // Check if the authenticated entity is trying to access users from their own organization
-    let userOrgId = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-    if (userOrgId !== req.params.id) {
-        return res.status(403).send("Access Denied: You can only access users from your own organization");
-    }
-
-    try {
-        const users = await User.find({ UserOrganization: req.params.id, UserRole: req.params.role });
-        if (!users) {
-            return res.status(404).send("No Users found");
-        }
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-}];
-
-
 // User Login
 const loginUser = async (req, res) => {
     try {
@@ -183,28 +135,19 @@ const loginUser = async (req, res) => {
     catch (error) {
         res.status(400).json({ error: error });
     }
-}
+};
 
 
-// User Logout
-const logoutUser = async (req, res) => {
-    try {
-        res.status(200).json({
-            msg: "User Logged out Successfully"
-        });
+// Get All User by Organization
+const getAllUsers = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is an organization or a Distributions Admin
+    if (req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
+        return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
     }
-    catch (error) {
-        res.status(400).json({ error: error });
-    }
-}
 
-
-
-
-// get All Users
-const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
+        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        const users = await User.find({ UserOrganization: userOrgID });
         if (!users) {
             return res.status(404).send("No Users found");
         }
@@ -212,12 +155,23 @@ const getAllUsers = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-};
+}];
 
-// get User by id
-const getUserById = async (req, res) => {
+
+// Get User by organization and id
+const getUserById = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is an organization or a Distributions Admin
+    if (req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
+        return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
+    }
     try {
-        const user = await User.findOne({ UserID: req.params.id });
+        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        const user = await User.findOne(
+            {
+                UserID: req.params.id,
+                UserOrganization: userOrgID
+            }
+        );
         if (!user) {
             return res.status(404).send("User not found");
         }
@@ -225,13 +179,23 @@ const getUserById = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-};
+}];
 
+// Get User by Organization and Role
+const getUserByRole = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is an organization or a Distributions Admin
+    if (req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
+        return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
+    }
 
-// get User by Role
-const getUserByRole = async (req, res) => {
     try {
-        const users = await User.find({ UserRole: req.params.role });
+        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        const users = await User.find(
+            {
+                UserOrganization: userOrgID,
+                UserRole: req.params.role
+            }
+        );
         if (!users) {
             return res.status(404).send("No Users found");
         }
@@ -239,18 +203,14 @@ const getUserByRole = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-};
-
+}];
 
 module.exports = {
     addUser,
-    getAllUsers,
-    getUserById,
     updateUserById,
     deleteUserById,
     loginUser,
-    logoutUser,
-    getUserByOrganization,
+    getAllUsers,
+    getUserById,
     getUserByRole,
-    getUserByOrganizationAndRole
 };
