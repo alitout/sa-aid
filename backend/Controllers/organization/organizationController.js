@@ -33,34 +33,14 @@ const registerOrganization = async (req, res) => {
     }
 };
 
-// Get All Organizations
-const getAllOrganizations = async (req, res) => {
-    try {
-        const organizations = await Organization.find();
-        if (!organizations) {
-            return res.status(404).send("No Organizations found");
-        }
-        res.status(200).json(organizations);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-};
-
-// Get Organization By Id
-const getOrganizationById = async (req, res) => {
-    try {
-        const organization = await Organization.findOne({ OrganizationID: req.params.id });
-        if (!organization) {
-            return res.status(404).send("Organization not found");
-        }
-        res.status(200).json(organization);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-};
 
 // Update Organization
-const updateOrganizationById = async (req, res) => {
+const updateOrganizationById = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is the same as the organization being updated
+    if (req.user.OrganizationID !== req.params.id) {
+        return res.status(403).send("Access Denied: You can only update your own organization");
+    }
+
     try {
         const updatedOrganization = await Organization.findOneAndUpdate(
             { OrganizationID: req.params.id },
@@ -77,10 +57,16 @@ const updateOrganizationById = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-};
+}];
+
 
 // Delete Organization
-const deleteOrganizationById = async (req, res) => {
+const deleteOrganizationById = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is the same as the organization being deleted
+    if (req.user.OrganizationID !== req.params.id) {
+        return res.status(403).send("Access Denied: You can only delete your own organization");
+    }
+
     try {
         const deletedOrganization = await Organization.findOneAndDelete({ OrganizationID: req.params.id });
         if (!deletedOrganization) {
@@ -93,7 +79,8 @@ const deleteOrganizationById = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error });
     }
-};
+}];
+
 
 // Organization login
 const loginOrganization = async (req, res) => {
@@ -120,12 +107,29 @@ const loginOrganization = async (req, res) => {
     }
 };
 
-// Organization logout
-const logoutOrganization = async (req, res) => {
+
+// Get All Organizations
+const getAllOrganizations = async (req, res) => {
     try {
-        res.status(200).json({
-            msg: "Organization Logged Out Successfully",
-        });
+        const organizations = await Organization.find();
+        if (!organizations) {
+            return res.status(404).send("No Organizations found");
+        }
+        res.status(200).json(organizations);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+};
+
+
+// Get Organization By Id
+const getOrganizationById = async (req, res) => {
+    try {
+        const organization = await Organization.findOne({ OrganizationID: req.params.id });
+        if (!organization) {
+            return res.status(404).send("Organization not found");
+        }
+        res.status(200).json(organization);
     } catch (error) {
         res.status(400).json({ error: error });
     }
@@ -133,10 +137,9 @@ const logoutOrganization = async (req, res) => {
 
 module.exports = {
     registerOrganization,
-    getAllOrganizations,
-    getOrganizationById,
     updateOrganizationById,
     deleteOrganizationById,
     loginOrganization,
-    logoutOrganization
+    getAllOrganizations,
+    getOrganizationById
 };
