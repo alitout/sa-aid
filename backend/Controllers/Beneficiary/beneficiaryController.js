@@ -125,10 +125,10 @@ const getAllBeneficiaries = [verifyToken, async (req, res) => {
     try {
         let BeneficiaryOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
         const beneficiaries = await Beneficiary.find({ BeneficiaryOrganization: BeneficiaryOrgID });
-        res.status(200).json({
-            msg: "Beneficiaries Retrieved Successfully",
-            data: beneficiaries,
-        });
+        if (!beneficiaries) {
+            return res.status(404).send("No Beneficiaries found");
+        }
+        res.status(200).json(beneficiaries);
     } catch (error) {
         res.status(400).json({ error: error });
     }
@@ -143,19 +143,17 @@ const getBeneficiaryById = [verifyToken, async (req, res) => {
     }
 
     try {
+        let BeneficiaryOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
         const beneficiary = await Beneficiary.findOne(
             {
                 BeneficiaryID: req.params.id,
-                BeneficiaryOrganization: req.user.UserOrganization // Add this line
+                BeneficiaryOrganization: BeneficiaryOrgID // Add this line
             }
         );
         if (!beneficiary) {
             return res.status(404).send("Beneficiary not found");
         }
-        res.status(200).json({
-            msg: "Beneficiary Retrieved Successfully",
-            data: beneficiary,
-        });
+        res.status(200).json(beneficiary);
     } catch (error) {
         res.status(400).json({ error: error });
     }
