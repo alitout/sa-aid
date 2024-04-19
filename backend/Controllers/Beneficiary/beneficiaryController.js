@@ -135,7 +135,7 @@ const getAllBeneficiaries = [verifyToken, async (req, res) => {
 }];
 
 
-// Get beneficiary by id for the organization
+// Get beneficiary by organization by id
 const getBeneficiaryById = [verifyToken, async (req, res) => {
     // Check if the authenticated entity is a Beneficiaries Admin
     if (req.user.role !== 'Beneficiaries admin' && req.user.role !== 'Organization' && req.user.role !== 'Distributions admin') {
@@ -162,38 +162,10 @@ const getBeneficiaryById = [verifyToken, async (req, res) => {
 }];
 
 
-
-// get All beneficiaries
-// const getAllBeneficiaries = async (req, res) => {
-//     try {
-//         const beneficiaries = await Beneficiary.find();
-//         if (!beneficiaries) {
-//             return res.status(404).send("No Beneficiaries found");
-//         }
-//         res.status(200).json(beneficiaries);
-//     } catch (error) {
-//         res.status(400).json({ error: error });
-//     }
-// };
-
-// // get beneficiary by id
-// const getBeneficiaryById = async (req, res) => {
-//     try {
-//         const beneficiary = await Beneficiary.findOne({ BeneficiaryID: req.params.id });
-//         if (!beneficiary) {
-//             return res.status(404).send("Beneficiary not found");
-//         }
-//         res.status(200).json(beneficiary);
-//     } catch (error) {
-//         res.status(400).json({ error: error });
-//     }
-// };
-
-
 module.exports = {
     addBeneficiary,
-    getAllBeneficiaries,
-    getBeneficiaryById,
     updateBeneficiaryById,
-    deleteBeneficiaryById
+    deleteBeneficiaryById,
+    getAllBeneficiaries,
+    getBeneficiaryById
 };
