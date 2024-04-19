@@ -10,7 +10,7 @@ const addFamily = [verifyToken, async (req, res) => {
     }
 
     const { FamilyCity, FamilyStreet, FamilyBuilding, FamilyFloor, FamilyHomePhoneNumber, HaveCar, Type } = req.body;
-    
+
     const newFamily = new Family({
         FamilyCity: FamilyCity,
         FamilyStreet: FamilyStreet,
@@ -40,20 +40,21 @@ const addFamily = [verifyToken, async (req, res) => {
 }];
 
 
-
-// update Family by id
+// update Family by organization and id
 const updateFamilyById = [verifyToken, async (req, res) => {
     // Check if the authenticated entity is a Beneficiaries Admin
     if (req.user.role !== 'Beneficiaries admin') {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
     }
     try {
-        const updatedFamily
-            = await Family.findOneAndUpdate(
-                { FamilyID: req.params.id },
-                req.body,
-                { new: true }
-            );
+        const updatedFamily = await Family.findOneAndUpdate(
+            {
+                FamilyID: req.params.id,
+                FamilyOrganization: req.user.UserOrganization
+            },
+            req.body,
+            { new: true }
+        );
         if (!updatedFamily) {
             return res.status(404).send("Family not found");
         }
@@ -68,14 +69,19 @@ const updateFamilyById = [verifyToken, async (req, res) => {
 }];
 
 
-// delete Family by id
+// delete Family by organization and id
 const deleteFamilyById = [verifyToken, async (req, res) => {
     // Check if the authenticated entity is a Beneficiaries Admin
     if (req.user.role !== 'Beneficiaries admin') {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
     }
     try {
-        const deletedFamily = await Family.findOneAndDelete({ FamilyID: req.params.id });
+        const deletedFamily = await Family.findOneAndDelete(
+            {
+                FamilyID: req.params.id,
+                FamilyOrganization: req.user.UserOrganization
+            }
+        );
         if (!deletedFamily) {
             return res.status(404).send("Family not found");
         }
@@ -90,10 +96,10 @@ const deleteFamilyById = [verifyToken, async (req, res) => {
 
 
 // get all families by organization
-const getFamiliesByOrganization = [verifyToken, async (req, res) => {
+const getAllFamilies = [verifyToken, async (req, res) => {
     // Check if the authenticated entity is an organization or Beneficiaries Admin or Distributions Admin
     if (req.user.role !== 'Organization' && req.user.role !== 'Beneficiaries admin' && req.user.role !== 'Distributions admin') {
-        return res.status(403).send("Access Denied: Only an organization or a Beneficiaries Admin or a Distributions admin can access this");
+        return res.status(403).send("Access Denied: Only Organization, Beneficiaries Admin and Distributions Admin can access this");
     }
     try {
         let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
@@ -108,7 +114,31 @@ const getFamiliesByOrganization = [verifyToken, async (req, res) => {
 }];
 
 
-// get all familiy by organization and type
+// get family by organization and id
+const getFamilyById = [verifyToken, async (req, res) => {
+    // Check if the authenticated entity is an organization or Beneficiaries Admin or Distributions Admin
+    if (req.user.role !== 'Organization' && req.user.role !== 'Beneficiaries admin' && req.user.role !== 'Distributions admin') {
+        return res.status(403).send("Access Denied: Only Organization, Beneficiaries Admin and Distributions Admin can access this");
+    }
+    try {
+        let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        const family = await Family.findOne(
+            {
+                FamilyID: req.params.id,
+                FamilyOrganization: familyOrgID
+            }
+        );
+        if (!family) {
+            return res.status(404).send("Family not found");
+        }
+        res.status(200).json(family);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+}];
+
+
+// get all familiies by organization and type
 const getFamiliesByType = [verifyToken, async (req, res) => {
     // Check if the authenticated entity is an organization or Beneficiaries Admin or Distributions Admin
     if (req.user.role !== 'Organization' && req.user.role !== 'Beneficiaries admin' && req.user.role !== 'Distributions admin') {
@@ -116,7 +146,12 @@ const getFamiliesByType = [verifyToken, async (req, res) => {
     }
     try {
         let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-        const families = await Family.find({ FamilyOrganization: familyOrgID, Type: req.params.type });
+        const families = await Family.find(
+            {
+                FamilyOrganization: familyOrgID,
+                Type: req.params.type
+            }
+        );
         if (!families) {
             return res.status(404).send("No Families found");
         }
@@ -127,39 +162,11 @@ const getFamiliesByType = [verifyToken, async (req, res) => {
 }];
 
 
-// get All Families
-const getAllFamilies = async (req, res) => {
-    try {
-        const families = await Family.find();
-        if (!families) {
-            return res.status(404).send("No Families found");
-        }
-        res.status(200).json(families);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-};
-
-// get Family by id
-const getFamilyById = async (req, res) => {
-    try {
-        const family = await Family.findOne({ FamilyID: req.params.id });
-        if (!family) {
-            return res.status(404).send("Family not found");
-        }
-        res.status(200).json(family);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-};
-
-
 module.exports = {
     addFamily,
-    getAllFamilies,
-    getFamilyById,
     updateFamilyById,
     deleteFamilyById,
-    getFamiliesByOrganization,
+    getAllFamilies,
+    getFamilyById,
     getFamiliesByType
 }
