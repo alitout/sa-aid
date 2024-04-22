@@ -21,7 +21,11 @@ const familySchema = new mongoose.Schema({
     },
     HeadOfFamilyPhone: {
         type: String,
-        unique: true
+        // unique: true
+    },
+    FamilyCountry: {
+        type: String,
+        required: true
     },
     FamilyCity: {
         type: String,
@@ -38,6 +42,14 @@ const familySchema = new mongoose.Schema({
     FamilyFloor: {
         type: String,
         required: true
+    },
+    FamilyFloorPart: {
+        type: String,
+        // required: true
+    },
+    FamilyAddress: {
+        type: String,
+        unique: true
     },
     FamilyHomePhoneNumber: {
         type: String,

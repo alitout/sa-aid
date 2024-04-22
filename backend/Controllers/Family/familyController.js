@@ -9,20 +9,32 @@ const addFamily = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
     }
 
-    const { FamilyCity, FamilyStreet, FamilyBuilding, FamilyFloor, FamilyHomePhoneNumber, HaveCar, Type } = req.body;
+    const { FamilyCountry, FamilyCity, FamilyStreet, FamilyBuilding, FamilyFloor, FamilyFloorPart, FamilyHomePhoneNumber, HaveCar, Type } = req.body;
+    const FamilyAddress = `${FamilyCountry}, ${FamilyCity}, ${FamilyStreet}, ${FamilyBuilding}, ${FamilyFloor}, ${FamilyFloorPart}`;
 
     const newFamily = new Family({
+        FamilyCountry: FamilyCountry,
         FamilyCity: FamilyCity,
         FamilyStreet: FamilyStreet,
         FamilyBuilding: FamilyBuilding,
         FamilyFloor: FamilyFloor,
+        FamilyFloorPart: FamilyFloorPart,
+        FamilyAddress: FamilyAddress,
         FamilyHomePhoneNumber: FamilyHomePhoneNumber,
         HaveCar: HaveCar,
         Type: Type,
         FamilyOrganization: req.user.UserOrganization
     });
     try {
-        const oldFamily = await Family.findOne({ FamilyID: req.body.FamilyID });
+        const oldAddress = await Family.findOne({ FamilyAddress: FamilyAddress });
+        if (oldAddress) {
+            return res.status(400).send("Family Address already exists");
+        }
+        const oldPhone = await Family.findOne({ FamilyHomePhoneNumber: FamilyHomePhoneNumber });
+        if (oldPhone) {
+            return res.status(400).send("Family Phone already exists");
+        }
+        const oldFamily = oldAddress || oldPhone;
         if (oldFamily) {
             return res.status(400).send("Family already exists");
         }
