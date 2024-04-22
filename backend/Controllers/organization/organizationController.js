@@ -112,7 +112,7 @@ const loginOrganization = async (req, res) => {
         }
 
         // Create a JWT token
-        const token = jwt.sign({ OrganizationID: organization.OrganizationID, role: 'Organization' }, secretKey);
+        const token = jwt.sign({ OrganizationID: organization.OrganizationID, OrganizationCode: organization.OrganizationCode, role: 'Organization' }, secretKey);
 
         res.status(200).json({
             msg: "Organization Logged In Successfully",
