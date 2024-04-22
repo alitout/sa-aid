@@ -111,17 +111,43 @@ const deleteBeneficiaryById = [verifyToken, async (req, res) => {
                 BeneficiaryOrganization: req.user.UserOrganization // Add this line
             }
         );
+        console.log(req.params.id);
+        console.log(req.user.UserOrganization);
+        console.log(deletedBeneficiary);
         if (!deletedBeneficiary) {
             return res.status(404).send("Beneficiary not found");
         }
+
+        // Find the family
+        const family = await Family.findOne({ FamilyID: deletedBeneficiary.FamilyID });
+        if (!family) {
+            return res.status(404).send("Family not found");
+        }
+        console.log(family)
+        // Update the family
+        family.FamilyMembers -= 1;
+        const index = family.FamilyMemberIDs.indexOf(deletedBeneficiary.BeneficiaryID);
+        if (index > -1) {
+            family.FamilyMemberIDs.splice(index, 1);
+        }
+        if (deletedBeneficiary.isHeadOfFamily) {
+            family.HeadOfFamilyName = null;
+            family.HeadOfFamilyPhone = null;
+        }
+
+        // Save the updated family document
+        await family.save();
+
         res.status(200).json({
             msg: "Beneficiary Deleted Successfully",
             data: deletedBeneficiary,
         });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error });
     }
 }];
+
 
 
 // Get all beneficiaries by organization
