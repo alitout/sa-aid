@@ -15,7 +15,6 @@ const createStockItem = [verifyToken, async (req, res) => {
     try {
         const ExistStockType = await StockType.findOne({ TypeName: req.body.StockType });
         if (!ExistStockType) {
-            console.log(req.body);
             return res.status(404).send("Stock Type not found");
         }
         const OldStockItem = await StockItem.findOne({ ItemName: req.body.ItemName });
@@ -28,7 +27,6 @@ const createStockItem = [verifyToken, async (req, res) => {
             data: savedStockItem,
         });
     } catch (error) {
-        console.log(error);
         res.status(400).json({ error: error });
     }
 }];

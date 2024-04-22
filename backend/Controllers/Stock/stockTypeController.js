@@ -21,7 +21,6 @@ const createStockType = [verifyToken, async (req, res) => {
             data: savedStockType,
         });
     } catch (error) {
-        console.log(error);
         res.status(400).json({ error: error });
     }
 }];

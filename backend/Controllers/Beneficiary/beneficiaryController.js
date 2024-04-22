@@ -111,9 +111,6 @@ const deleteBeneficiaryById = [verifyToken, async (req, res) => {
                 BeneficiaryOrganization: req.user.UserOrganization // Add this line
             }
         );
-        console.log(req.params.id);
-        console.log(req.user.UserOrganization);
-        console.log(deletedBeneficiary);
         if (!deletedBeneficiary) {
             return res.status(404).send("Beneficiary not found");
         }
@@ -123,7 +120,6 @@ const deleteBeneficiaryById = [verifyToken, async (req, res) => {
         if (!family) {
             return res.status(404).send("Family not found");
         }
-        console.log(family)
         // Update the family
         family.FamilyMembers -= 1;
         const index = family.FamilyMemberIDs.indexOf(deletedBeneficiary.BeneficiaryID);
@@ -143,7 +139,6 @@ const deleteBeneficiaryById = [verifyToken, async (req, res) => {
             data: deletedBeneficiary,
         });
     } catch (error) {
-        console.log(error);
         res.status(400).json({ error: error });
     }
 }];
