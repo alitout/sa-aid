@@ -1,4 +1,5 @@
 const Stock = require("../../Models/Stock/stockModel");
+const stockItemModel = require("../../Models/Stock/stockItemModel");
 const verifyToken = require("../../Functions/verifyToken");
 
 // create stock
@@ -17,6 +18,10 @@ const createStock = [verifyToken, async (req, res) => {
         ExpiryDate: ExpiryDate
     });
     try {
+        const ExistStockItem = await stockItemModel.findOne({ ItemName: req.body.StockItem });
+        if (!ExistStockItem) {
+            return res.status(404).send("Stock Item not found");
+        }
         const savedStock = await newStock.save();
         res.status(200).json({
             msg: "Stock Added Successfully",

@@ -11,12 +11,17 @@ const createStockType = [verifyToken, async (req, res) => {
         TypeName: req.body.TypeName,
     });
     try {
+        const OldStockType = await StockType.findOne({ TypeName: req.body.TypeName });
+        if (OldStockType) {
+            return res.status(404).send("Stock Type already exists");
+        }
         const savedStockType = await newStockType.save();
         res.status(200).json({
             msg: "Stock Type Added Successfully",
             data: savedStockType,
         });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error });
     }
 }];

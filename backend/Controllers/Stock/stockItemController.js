@@ -1,4 +1,5 @@
 const StockItem = require('../../Models/Stock/stockItemModel');
+const StockType = require('../../Models/Stock/stockTypeModel');
 const verifyToken = require('../../Functions/verifyToken');
 
 // create stock item
@@ -12,12 +13,22 @@ const createStockItem = [verifyToken, async (req, res) => {
         ItemName: req.body.ItemName,
     });
     try {
+        const ExistStockType = await StockType.findOne({ TypeName: req.body.StockType });
+        if (!ExistStockType) {
+            console.log(req.body);
+            return res.status(404).send("Stock Type not found");
+        }
+        const OldStockItem = await StockItem.findOne({ ItemName: req.body.ItemName });
+        if (OldStockItem) {
+            return res.status(404).send("Stock Item already exists");
+        }
         const savedStockItem = await newStockItem.save();
         res.status(200).json({
             msg: "Stock Item Added Successfully",
             data: savedStockItem,
         });
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: error });
     }
 }];

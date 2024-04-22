@@ -9,6 +9,7 @@ const StockItemSchema = new mongoose.Schema({
     },
     ItemName: {
         type: String,
+        unique: true,
         required: true
     }
 });
