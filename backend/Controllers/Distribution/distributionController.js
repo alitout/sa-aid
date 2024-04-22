@@ -11,10 +11,10 @@ const createDistribution = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only a Distributions Admin can access this");
     }
 
-    const { DistributionDate, HeadOfDistributionID, DistributorIDs, StockID, BeneficiaryIDs } = req.body;
+    const { DistributionDate, HeadOfDistributionID, DistributorIDs, StockID, FamilyIDs } = req.body;
 
     // Check if the StockID exists
-    const stock = await Stock.findOne({ StockID: StockID });
+    const stock = await Stock.findOne({ _id: StockID });
     if (!stock) {
         return res.status(404).send("Stock not found");
     }
@@ -30,7 +30,7 @@ const createDistribution = [verifyToken, async (req, res) => {
         HeadOfDistributionID: HeadOfDistributionID,
         DistributorIDs: DistributorIDs,
         StockID: StockID,
-        BeneficiaryIDs: BeneficiaryIDs
+        FamilyIDs: FamilyIDs
     });
     try {
         const savedDistribution = await newDistribution.save();
@@ -157,7 +157,7 @@ const getDistributionsByUserId = [verifyToken, async (req, res) => {
                     { HeadOfDistributionID: req.params.id },
                     { DistributorIDs: req.params.id },
                 ],
-                
+
             }
         );
         if (!distributions) {

@@ -50,7 +50,7 @@ DistributionSchema.pre('save', async function (next) {
 
     try {
         // Find the organization
-        const organization = await Organization.findOne({ OrganizationID: this.DistributionOrganization });
+        const organization = await Organization.findOne({ OrganizationCode: this.DistributionOrganization });
         if (!organization) {
             throw new Error('Organization not found');
         }
