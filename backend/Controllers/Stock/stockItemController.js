@@ -8,7 +8,7 @@ const createStockItem = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only Distributions Admin can access this");
     }
     const newStockItem = new StockItem({
-        StockTypeID: req.body.StockTypeID,
+        StockType: req.body.StockType,
         ItemName: req.body.ItemName,
     });
     try {

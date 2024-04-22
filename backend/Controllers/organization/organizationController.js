@@ -7,10 +7,11 @@ const verifyToken = require("../../Functions/verifyToken");
 // Register Organization
 const registerOrganization = async (req, res) => {
 
-    const { OrganizationName, OrganizationAddress, OrganizationPhone, OrganizationEmail, OrganizationPassword } = req.body;
+    const { OrganizationCode, OrganizationName, OrganizationAddress, OrganizationPhone, OrganizationEmail, OrganizationPassword } = req.body;
     const hashedPassword = await bcrypt.hash(OrganizationPassword, 10);
 
     const newOrganization = new Organization({
+        OrganizationCode: OrganizationCode,
         OrganizationName: OrganizationName,
         OrganizationAddress: OrganizationAddress,
         OrganizationPhone: OrganizationPhone,
@@ -19,7 +20,23 @@ const registerOrganization = async (req, res) => {
     });
 
     try {
-        const oldOrganization = await Organization.findOne({ OrganizationName: req.body.OrganizationName });
+        const oldCode = await Organization.findOne({ OrganizationCode: req.body.OrganizationCode });
+        if (oldCode) {
+            return res.status(400).send("Organization Code already exists");
+        }
+        const oldName = await Organization.findOne({ OrganizationName: req.body.OrganizationName });
+        if (oldName) {
+            return res.status(400).send("Organization Name already exists");
+        }
+        const oldPhone = await Organization.findOne({ OrganizationPhone: req.body.OrganizationPhone });
+        if (oldPhone) {
+            return res.status(400).send("Organization Phone already exists");
+        }
+        const oldEmail = await Organization.findOne({ OrganizationEmail: req.body.OrganizationEmail });
+        if (oldEmail) {
+            return res.status(400).send("Organization Email already exists");
+        }
+        const oldOrganization = oldCode || oldName || oldPhone || oldEmail;
         if (oldOrganization) {
             return res.status(400).send("Organization already exists");
         }

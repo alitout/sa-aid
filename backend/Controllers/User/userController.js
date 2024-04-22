@@ -14,7 +14,7 @@ const addUser = [verifyToken, async (req, res) => {
     }
 
     // Create a new user
-    const { UserFName, UserLName, UserEmail, UserPassword, UserPhoneNumber, UserDOB, UserNationality, UserSex, UserAddress, UserRole, isHeadOfDistribution } = req.body;
+    const { UserFName, UserLName, UserEmail, UserPassword, UserPhoneNumber, UserDOB, UserNationality, UserGender, UserAddress, UserRole, isHeadOfDistribution } = req.body;
     const hashedPassword = await bcrypt.hash(UserPassword, 10);
 
     const newUser = new User({
@@ -25,14 +25,22 @@ const addUser = [verifyToken, async (req, res) => {
         UserPhoneNumber: UserPhoneNumber,
         UserDOB: UserDOB,
         UserNationality: UserNationality,
-        UserSex: UserSex,
+        UserGender: UserGender,
         UserAddress: UserAddress,
         UserRole: UserRole,
         isHeadOfDistribution: isHeadOfDistribution,
-        UserOrganization: req.user.OrganizationID
+        UserOrganization: req.user.OrganizationCode
     });
     try {
-        const oldUser = await User.findOne({ UserID: newUser.UserID });
+        const oldEmail = await User.findOne({ UserEmail: newUser.UserEmail });
+        if (oldEmail) {
+            return res.status(400).send("User Email already exists");
+        }
+        const oldPhone = await User.findOne({ UserPhoneNumber: newUser.UserPhoneNumber });
+        if (oldPhone) {
+            return res.status(400).send("User Phone already exists");
+        }
+        const oldUser = oldEmail || oldPhone;
         if (oldUser) {
             return res.status(400).send("User already exists");
         }
@@ -58,7 +66,7 @@ const updateUserById = [verifyToken, async (req, res) => {
     // If the authenticated entity is an organization, check if the user belongs to the authenticated organization
     if (req.user.role === 'Organization') {
         const user = await User.findOne({ UserID: req.params.id });
-        if (user.UserOrganization !== req.user.OrganizationID) {
+        if (user.UserOrganization !== req.user.OrganizationCode) {
             return res.status(403).send("Access Denied: You can only update users that belong to your organization");
         }
     }
@@ -91,7 +99,7 @@ const deleteUserById = [verifyToken, async (req, res) => {
 
     // Check if the user belongs to the authenticated organization
     const user = await User.findOne({ UserID: req.params.id });
-    if (user.UserOrganization !== req.user.OrganizationID) {
+    if (user.UserOrganization !== req.user.OrganizationCode) {
         return res.status(403).send("Access Denied: You can only delete users that belong to your organization");
     }
 
@@ -146,8 +154,8 @@ const getAllUsers = [verifyToken, async (req, res) => {
     }
 
     try {
-        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-        const users = await User.find({ UserOrganization: userOrgID });
+        let userOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
+        const users = await User.find({ UserOrganization: userOrgCode });
         if (!users) {
             return res.status(404).send("No Users found");
         }
@@ -165,11 +173,11 @@ const getUserById = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only an organization or a Distributions Admin can access this");
     }
     try {
-        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let userOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const user = await User.findOne(
             {
                 UserID: req.params.id,
-                UserOrganization: userOrgID
+                UserOrganization: userOrgCode
             }
         );
         if (!user) {
@@ -189,10 +197,10 @@ const getUserByRole = [verifyToken, async (req, res) => {
     }
 
     try {
-        let userOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let userOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const users = await User.find(
             {
-                UserOrganization: userOrgID,
+                UserOrganization: userOrgCode,
                 UserRole: req.params.role
             }
         );

@@ -13,6 +13,17 @@ const createDistribution = [verifyToken, async (req, res) => {
 
     const { DistributionDate, HeadOfDistributionID, DistributorIDs, StockID, BeneficiaryIDs } = req.body;
 
+    // Check if the StockID exists
+    const stock = await Stock.findOne({ StockID: StockID });
+    if (!stock) {
+        return res.status(404).send("Stock not found");
+    }
+
+    // Check if the stock is in the same organization as the authenticated user
+    if (stock.StockOrganization !== req.user.UserOrganization) {
+        return res.status(403).send("Access Denied: You can only distribute from your own stock");
+    }
+
     const newDistribution = new Distribution({
         DistributionOrganization: req.user.UserOrganization,
         DistributionDate: DistributionDate,
@@ -95,8 +106,8 @@ const getAllDistributions = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only an Organization or a Distributions Admin can access this");
     }
     try {
-        const distributionOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-        const distributions = await Distribution.find({ DistributionOrganization: distributionOrgID });
+        const distributionOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
+        const distributions = await Distribution.find({ DistributionOrganization: distributionOrgCode });
         if (!distributions) {
             return res.status(404).send("No Distributions found");
         }
@@ -113,11 +124,11 @@ const getDistributionById = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only an Organization or a Distributions Admin can access this");
     }
     try {
-        const distributionOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        const distributionOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const distribution = await Distribution.findOne(
             {
                 DistributionID: req.params.id,
-                DistributionOrganization: distributionOrgID
+                DistributionOrganization: distributionOrgCode
             }
         );
         if (!distribution) {
@@ -138,10 +149,10 @@ const getDistributionsByUserId = [verifyToken, async (req, res) => {
     }
 
     try {
-        let distributionOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let distributionOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const distributions = await Distribution.find(
             {
-                DistributionOrganization: distributionOrgID,
+                DistributionOrganization: distributionOrgCode,
                 $or: [
                     { HeadOfDistributionID: req.params.id },
                     { DistributorIDs: req.params.id },

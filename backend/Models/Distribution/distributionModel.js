@@ -13,7 +13,7 @@ const DistributionSchema = new mongoose.Schema({
     },
     DistributionOrganization: {
         type: String,
-        required: true
+        // required: true
     },
     DistributionDate: {
         type: Date,
@@ -64,7 +64,7 @@ DistributionSchema.pre('save', async function (next) {
 
         // Generate the DistributionID
         const year = this.DistributionDate.getFullYear();
-        this.DistributionID = `${organization.OrganizationAbbreviation}${year}_D${counter.seq.toString().padStart(3, '0')}`;
+        this.DistributionID = `${organization.OrganizationCode}${year}_D${counter.seq.toString().padStart(3, '0')}`;
 
         next();
     } catch (error) {

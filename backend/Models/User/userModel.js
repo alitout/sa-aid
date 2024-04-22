@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    UserSex: {
+    UserGender: {
         type: String,
         required: true
     },
@@ -64,9 +64,9 @@ UserSchema.pre('save', async function (next) {
     }
 
     try {
-        const organization = await Organization.findOne({ OrganizationID: this.UserOrganization });
+        const organization = await Organization.findOne({ OrganizationCode: this.UserOrganization });
         const userCount = await this.constructor.countDocuments({ UserOrganization: this.UserOrganization });
-        this.UserID = `${organization.OrganizationAbbreviation}${(userCount + 1).toString().padStart(3, '0')}`;
+        this.UserID = `${organization.OrganizationCode}${(userCount + 1).toString().padStart(3, '0')}`;
         next();
     } catch (error) {
         return next(error);

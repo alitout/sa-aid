@@ -22,10 +22,7 @@ const addFamily = [verifyToken, async (req, res) => {
         FamilyOrganization: req.user.UserOrganization
     });
     try {
-        const oldFamily = await Family.findOne({
-            FamilyID:
-                req.body.FamilyID
-        });
+        const oldFamily = await Family.findOne({ FamilyID: req.body.FamilyID });
         if (oldFamily) {
             return res.status(400).send("Family already exists");
         }
@@ -102,8 +99,8 @@ const getAllFamilies = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only Organization, Beneficiaries Admin and Distributions Admin can access this");
     }
     try {
-        let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-        const families = await Family.find({ FamilyOrganization: familyOrgID });
+        let familyOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
+        const families = await Family.find({ FamilyOrganization: familyOrgCode });
         if (!families) {
             return res.status(404).send("No Families found");
         }
@@ -121,11 +118,11 @@ const getFamilyById = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only Organization, Beneficiaries Admin and Distributions Admin can access this");
     }
     try {
-        let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let familyOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const family = await Family.findOne(
             {
                 FamilyID: req.params.id,
-                FamilyOrganization: familyOrgID
+                FamilyOrganization: familyOrgCode
             }
         );
         if (!family) {
@@ -145,10 +142,10 @@ const getFamiliesByType = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only an organization or a Beneficiaries Admin or a Distributions admin can access this");
     }
     try {
-        let familyOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let familyOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const families = await Family.find(
             {
-                FamilyOrganization: familyOrgID,
+                FamilyOrganization: familyOrgCode,
                 Type: req.params.type
             }
         );

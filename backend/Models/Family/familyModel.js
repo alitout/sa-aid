@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
 const Counter = require("../Counter/counterModel");
+const Organization = require("../organization/organizationModel");
 
 // Define the family schema
 const familySchema = new mongoose.Schema({
     FamilyID: {
         type: String,
         unique: true
-    },
-    headOfFamilyID: {
-        type: String,
-        // required: true
     },
     FamilyMembers: {
         type: Number,
@@ -19,8 +16,12 @@ const familySchema = new mongoose.Schema({
         type: [String],
         default: []
     },
-    HeadOfFamilyID: {
+    HeadOfFamilyName: {
         type: String,
+    },
+    HeadOfFamilyPhone: {
+        type: String,
+        unique: true
     },
     FamilyCity: {
         type: String,
@@ -52,6 +53,7 @@ const familySchema = new mongoose.Schema({
     },
     FamilyOrganization: {
         type: String,
+        ref: 'Organization',
         // required: true
     }
 });
@@ -63,13 +65,14 @@ familySchema.pre('save', async function (next) {
     }
 
     try {
+        const familyOrganization = this.FamilyOrganization;
         const cityPrefix = this.FamilyCity.substring(0, 3).toUpperCase();
         const counter = await Counter.findByIdAndUpdate(
             { _id: cityPrefix },
             { $inc: { seq: 1 } },
             { new: true, upsert: true }
         );
-        this.FamilyID = `${cityPrefix}${counter.seq.toString().padStart(3, '0')}`;
+        this.FamilyID = `${familyOrganization}_${cityPrefix}${counter.seq.toString().padStart(3, '0')}`;
         next();
     } catch (error) {
         return next(error);

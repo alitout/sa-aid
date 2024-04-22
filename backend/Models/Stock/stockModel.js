@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const StockItem = require('./stockItemModel');
 
 const StockSchema = new mongoose.Schema({
-    StockItemID: {
-        type: mongoose.Schema.Types.ObjectId,
+    StockItem: {
+        type: String,
         ref: 'StockItem',
         required: true
     },
@@ -14,6 +14,10 @@ const StockSchema = new mongoose.Schema({
     ExpiryDate: {
         type: Date,
         required: true
+    },
+    StockOrganization: {
+        type: String,
+        // required: true
     }
 });
 

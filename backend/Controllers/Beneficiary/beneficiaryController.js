@@ -9,7 +9,7 @@ const addBeneficiary = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
     }
 
-    const { FamilyID, BeneficiaryFName, BeneficiaryLName, BeneficiaryFatherName, BeneficiaryNationality, BeneficiarySex, isHeadOfFamily, BeneficiaryDOB, BeneficiarySocialState, BeneficiaryEducationLevel, BeneficiaryMajor, BeneficiaryPlaceOfWork, BeneficiaryJob, BeneficiarySalary, BeneficiaryPhone, BeneficiaryMedications, isBeneficiaryActive } = req.body;
+    const { BeneficiaryID, FamilyID, BeneficiaryFName, BeneficiaryLName, BeneficiaryFatherName, BeneficiaryNationality, BeneficiaryGender, isHeadOfFamily, BeneficiaryDOB, BeneficiarySocialState, BeneficiaryEducationLevel, BeneficiaryMajor, BeneficiaryPlaceOfWork, BeneficiaryJob, BeneficiarySalary, BeneficiaryPhone, BeneficiaryMedications, isBeneficiaryActive } = req.body;
 
     // Find the family
     const family = await Family.findOne({ FamilyID: FamilyID });
@@ -23,13 +23,14 @@ const addBeneficiary = [verifyToken, async (req, res) => {
     }
 
     const newBeneficiary = new Beneficiary({
+        BeneficiaryID: BeneficiaryID,
         FamilyID: FamilyID,
         BeneficiaryOrganization: req.user.UserOrganization,
         BeneficiaryFName: BeneficiaryFName,
         BeneficiaryLName: BeneficiaryLName,
         BeneficiaryFatherName: BeneficiaryFatherName,
         BeneficiaryNationality: BeneficiaryNationality,
-        BeneficiarySex: BeneficiarySex,
+        BeneficiaryGender: BeneficiaryGender,
         isHeadOfFamily: isHeadOfFamily,
         BeneficiaryDOB: BeneficiaryDOB,
         BeneficiarySocialState: BeneficiarySocialState,
@@ -44,7 +45,15 @@ const addBeneficiary = [verifyToken, async (req, res) => {
     });
 
     try {
-        const oldBeneficiary = await Beneficiary.findOne({ BeneficiaryID: req.body.BeneficiaryID });
+        const oldBeneficiaryID = await Beneficiary.findOne({ BeneficiaryID: req.body.BeneficiaryID });
+        if (oldBeneficiaryID) {
+            return res.status(400).send("Beneficiary ID already exists");
+        }
+        const oldBeneficiaryPhone = await Beneficiary.findOne({ BeneficiaryPhone: req.body.BeneficiaryPhone });
+        if (oldBeneficiaryPhone) {
+            return res.status(400).send("Beneficiary Phone already exists");
+        }
+        const oldBeneficiary = oldBeneficiaryID || oldBeneficiaryPhone;
         if (oldBeneficiary) {
             return res.status(400).send("Beneficiary already exists");
         }
@@ -123,8 +132,8 @@ const getAllBeneficiaries = [verifyToken, async (req, res) => {
     }
 
     try {
-        let BeneficiaryOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
-        const beneficiaries = await Beneficiary.find({ BeneficiaryOrganization: BeneficiaryOrgID });
+        let BeneficiaryOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
+        const beneficiaries = await Beneficiary.find({ BeneficiaryOrganization: BeneficiaryOrgCode });
         if (!beneficiaries) {
             return res.status(404).send("No Beneficiaries found");
         }
@@ -143,11 +152,11 @@ const getBeneficiaryById = [verifyToken, async (req, res) => {
     }
 
     try {
-        let BeneficiaryOrgID = req.user.role === 'Organization' ? req.user.OrganizationID : req.user.UserOrganization;
+        let BeneficiaryOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const beneficiary = await Beneficiary.findOne(
             {
                 BeneficiaryID: req.params.id,
-                BeneficiaryOrganization: BeneficiaryOrgID // Add this line
+                BeneficiaryOrganization: BeneficiaryOrgCode // Add this line
             }
         );
         if (!beneficiary) {

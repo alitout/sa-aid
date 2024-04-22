@@ -6,7 +6,8 @@ const Counter = require("../Counter/counterModel");
 const BeneficiarySchema = new mongoose.Schema({
     BeneficiaryID: { // رقم الهوية
         type: String,
-        unique: true
+        unique: true,
+        required: true
     },
     FamilyID: {
         type: String,
@@ -33,7 +34,7 @@ const BeneficiarySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    BeneficiarySex: { // male - female
+    BeneficiaryGender: { // male - female
         type: String,
         enum: ['ذكر', 'أنثى'],
         required: true
@@ -86,7 +87,7 @@ const BeneficiarySchema = new mongoose.Schema({
     }
 });
 
-// Pre-save hook to generate BeneficiaryID
+// Pre-save hook to update family members count
 BeneficiarySchema.pre('save', async function (next) {
     if (!this.isNew) {
         return next();
@@ -99,21 +100,13 @@ BeneficiarySchema.pre('save', async function (next) {
             throw new Error('Family not found');
         }
 
-        // Find and update the counter
-        const counter = await Counter.findByIdAndUpdate(
-            { _id: this.FamilyID },
-            { $inc: { seq: 1 } },
-            { new: true, upsert: true }
-        );
-
-        // Generate the BeneficiaryID
-        this.BeneficiaryID = `${this.FamilyID}_${counter.seq.toString().padStart(3, '0')}`;
-
         // Update the family
         family.FamilyMembers += 1;
         family.FamilyMemberIDs.push(this.BeneficiaryID);
         if (this.isHeadOfFamily) {
-            family.HeadOfFamilyID = this.BeneficiaryID;
+            const BeneficiaryName = this.BeneficiaryFName + ' ' + this.BeneficiaryFatherName + ' ' + this.BeneficiaryLName;
+            family.HeadOfFamilyName = BeneficiaryName;
+            family.HeadOfFamilyPhone = this.BeneficiaryPhone;
         }
 
         await family.save();
