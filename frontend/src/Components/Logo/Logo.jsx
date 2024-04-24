@@ -1,0 +1,20 @@
+import React from 'react';
+import logo from '../../assets/logo.svg';
+
+function Logo() {
+    return (
+        <div className="logo d-flex flex-row align-items-center gap-3 flex-nowrap">
+            <img src={logo} alt="SA-AID icon" />
+            <div className="name d-flex flex-column fs-1_25 fw-500 text-black text-nowrap">
+                <div className='border-bottom border-dark-subtle'>
+                    ساعد
+                </div>
+                <div>
+                    SA-AID
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Logo;

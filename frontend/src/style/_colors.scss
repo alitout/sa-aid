@@ -17,6 +17,19 @@ $blue-100: #2176AE;
 // Green
 $green-500 : #32936F;
 
+// Gray
+// $gray-100: #F7F8FA;
+$gray-200: #EAECF0;
+$gray-300: #D0D5DD;
+// $gray-400: #B3B9C3;
+$gray-500: #667085;
+$gray-600: #475467;
+$gray-700: #344054;
+// $gray-800: #232C3D;
+$gray-900: #101828;
+
+
+// Text Colors
 // brown-100
 .text-brown-100 {
     color: $brown-100 !important;
@@ -51,3 +64,39 @@ $green-500 : #32936F;
 .text-green-500 {
     color: $green-500 !important;
 }
+
+// gray-200
+.text-gray-200 {
+    color: $gray-200 !important;
+}
+
+// gray-300
+.text-gray-300 {
+    color: $gray-300 !important;
+}
+
+// gray-500
+.text-gray-500 {
+    color: $gray-500 !important;
+}
+
+// gray-600
+.text-gray-600 {
+    color: $gray-600 !important;
+}
+
+// gray-700
+.text-gray-700 {
+    color: $gray-700 !important;
+}
+
+// gray-900
+.text-gray-900 {
+    color: $gray-900 !important;
+}
+
+// Borders Colors
+.border-brown-500 {
+    border-color: $brown-500 !important;
+}
+
