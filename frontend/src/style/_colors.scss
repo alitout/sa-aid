@@ -1,0 +1,53 @@
+// White
+$white: #FFFFFF;
+
+// Black
+$black: #000000;
+
+// Brown
+$brown-100: #CDC1B8;
+$brown-200: #BCA691;
+$brown-300: #B29782;
+$brown-400: #81634B;
+$brown-500: #835E54;
+
+// Blue
+$blue-100: #2176AE;
+
+// Green
+$green-500 : #32936F;
+
+// brown-100
+.text-brown-100 {
+    color: $brown-100 !important;
+}
+
+// brown-200
+.text-brown-200 {
+    color: $brown-200 !important;
+}
+
+// brown-300
+.text-brown-300 {
+    color: $brown-300 !important;
+}
+
+// brown-400
+.text-brown-400 {
+    color: $brown-400 !important;
+}
+
+// brown-500
+.text-brown-500 {
+    color: $brown-500 !important;
+}
+
+// blue-100
+.text-blue-100 {
+    color: $blue-100 !important;
+}
+
+// green-500
+.text-green-500 {
+    color: $green-500 !important;
+}
