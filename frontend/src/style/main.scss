@@ -5,3 +5,14 @@
     font-family: "Tajawal", sans-serif;
     direction: rtl;
 }
+
+.navLink {
+
+    transition: border-right 0.3s ease-in-out, color 0.3s ease-in-out;
+    border-right: 0px solid transparent;
+
+    &:hover {
+        border-right: 12px solid $green-500 !important;
+        color: $brown-500 !important;
+    }
+}
