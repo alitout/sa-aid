@@ -6,6 +6,10 @@
     direction: rtl;
 }
 
+.navbar {
+    background-color: #FFFCFA;
+}
+
 .navLink {
 
     transition: border-right 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -15,4 +19,23 @@
         border-right: 12px solid $green-500 !important;
         color: $brown-500 !important;
     }
+}
+
+.HeroSection {
+    background-image: url('../assets/distributions.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    .content {
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.7);
+        width: 100vw;
+        height: 100vh;
+    }
+
 }
