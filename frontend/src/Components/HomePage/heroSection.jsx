@@ -5,7 +5,7 @@ function HeroSection() {
         <section className="HeroSection">
             <div className="content d-flex align-items-sm-center pt-6_0">
                 <div className="container d-flex flex-column justify-content-center justify-content-sm-start align-items-center align-items-sm-start">
-                    <h1 className='col-10 text-center text-sm-end fs-3 fs-sm-2 fw-900 pt-2 pt-sm-0 pb-3'>
+                    <h1 className='col-10 text-center text-sm-end fs-2 fs-sm-2 fw-900 pt-2 pt-sm-0 pb-3'>
                         أهلا بك في ساعد | SA-AID
                     </h1>
                     <p className='col-12 text-center text-sm-end fs-1_25 pb-3 mb-2'>
