@@ -2,15 +2,15 @@ import React from 'react'
 
 function ObjectivesSection() {
     return (
-        <section id='objectives' className='container' style={{paddingTop: '6rem'}}>
+        <section id='objectives' className='container' style={{ paddingTop: '6rem' }}>
             <div>
                 <h1 className="d-flex justify-content-center align-items-center fw-600 text-black fs-2 fs-sm-2 pb-4">
                     أهدافنا
                 </h1>
-                <div className="cards d-flex flex-column justify-content-evenly">
-                    <div className="d-flex flex-column flex-md-row justify-content-center align-items-center align-items-md-stretch">
-                        <div className="card col-12 col-md-6 m-2">
-                            <h5 className="card-header fw-500 fs-3">
+                <div className="cards d-flex flex-wrap justify-content-evenly">
+                    <div className="d-flex flex-row flex-wrap justify-content-center align-items-center align-items-md-stretch">
+                        <div className="card col-12 col-lg-5 m-3">
+                            <h5 className="card-header fw-500 fs-1_5">
                                 سد الفجوة
                             </h5>
                             <div className="card-body">
@@ -19,8 +19,8 @@ function ObjectivesSection() {
                                 </p>
                             </div>
                         </div>
-                        <div className="card col-12 col-md-6 m-2">
-                            <h5 className="card-header fw-500 fs-3">
+                        <div className="card col-12 col-lg-5 m-3">
+                            <h5 className="card-header fw-500 fs-1_5">
                                 تبسيط العمليات
                             </h5>
                             <div className="card-body">
@@ -29,10 +29,8 @@ function ObjectivesSection() {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div className="cards d-flex flex-column flex-md-row justify-content-center align-items-center align-items-md-stretch">
-                        <div className="card col-12 col-md-6 m-2">
-                            <h5 className="card-header fw-500 fs-3">
+                        <div className="card col-12 col-lg-5 m-3">
+                            <h5 className="card-header fw-500 fs-1_5">
                                 تعظيم الأثر
                             </h5>
                             <div className="card-body">
@@ -41,8 +39,8 @@ function ObjectivesSection() {
                                 </p>
                             </div>
                         </div>
-                        <div className="card col-12 col-md-6 m-2">
-                            <h5 className="card-header fw-500 fs-3">
+                        <div className="card col-12 col-lg-5 m-3">
+                            <h5 className="card-header fw-500 fs-1_5">
                                 تعزيز الشفافية
                             </h5>
                             <div className="card-body">
@@ -51,10 +49,8 @@ function ObjectivesSection() {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div className="cards d-flex flex-column flex-md-row justify-content-center align-items-center align-items-md-stretch">
-                        <div className="card col-12 col-md-6 m-2">
-                            <h5 className="card-header fw-500 ">
+                        <div className="card col-12 col-lg-5 m-3">
+                            <h5 className="card-header fw-500 fs-1_5">
                                 التحسين الاجتماعي
                             </h5>
                             <div className="card-body">
