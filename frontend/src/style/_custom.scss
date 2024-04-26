@@ -39,3 +39,7 @@ $btn-linear-gradient: linear-gradient(60deg, rgba(131, 94, 84, 1) 30%, rgba(33, 
 .button:hover {
     @include btnHoverBg;
 }
+
+.bi {
+    line-height: 0 !important;
+}
