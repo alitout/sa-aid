@@ -1,6 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function HeroSection() {
+    const navigate = useNavigate();
+
+    const navigateToLogin = () => {
+        navigate('/login'); // Navigate to /login
+    };
     return (
         <section className="HeroSection">
             <div className="content d-flex align-items-sm-center pt-6_0">
@@ -20,7 +26,7 @@ function HeroSection() {
                         <br /><br />
                         ابدأ رحلتك معنا وقم بتحويل مشهد المساعدات المجتمعية.
                     </p>
-                    <button className='button'>تسجيل الدخول</button>
+                    <button className='button' onClick={navigateToLogin}>تسجيل الدخول</button>
                 </div>
             </div>
         </section>

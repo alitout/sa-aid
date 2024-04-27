@@ -1,8 +1,10 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../style/main.scss';
 import Logo from '../Logo/Logo';
 
 function Navbar() {
+    const navigate = useNavigate();
 
     const topRef = useRef(null);
     const scrollToTop = () => {
@@ -13,6 +15,10 @@ function Navbar() {
         const element = document.getElementById(section);
         element.scrollIntoView({ behavior: 'smooth' });
     }
+
+    const navigateToLogin = () => {
+        navigate('/login'); // Navigate to /login
+    };
 
     return (
         <div className='px-0'>
@@ -36,7 +42,7 @@ function Navbar() {
                         </a>
                     </div>
                     <div className="col-sm-2 d-flex justify-content-center">
-                        <button className='button d-none d-sm-flex'>تسجيل الدخول</button>
+                        <button className='button d-none d-sm-flex' onClick={navigateToLogin}>تسجيل الدخول</button>
                     </div>
                 </div>
             </nav>
