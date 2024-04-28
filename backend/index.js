@@ -2,6 +2,7 @@ require('dotenv').config(); // import the contents of .env file
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const routes = require('./Routes/routes'); // import the routes file
 const mongoString = process.env.DATABASE_URL; // assign the value of DATABASE_URL to mongoString
 
@@ -18,6 +19,7 @@ database.once('connected', () => { // database.once means it will run only one t
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use('/', routes);
 
