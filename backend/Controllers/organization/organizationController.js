@@ -115,8 +115,15 @@ const loginOrganization = async (req, res) => {
         const token = jwt.sign({ OrganizationID: organization.OrganizationID, OrganizationCode: organization.OrganizationCode, role: 'Organization' }, secretKey);
 
         res.status(200).json({
-            msg: "Organization Logged In Successfully",
-            data: organization,
+            msg: "تم تسجيل الدخول بنجاح",
+            data: {
+                OrganizationID: organization.OrganizationID,
+                OrganizationCode: organization.OrganizationCode,
+                OrganizationName: organization.OrganizationName,
+                OrganizationAddress: organization.OrganizationAddress,
+                OrganizationPhone: organization.OrganizationPhone,
+                OrganizationEmail: organization.OrganizationEmail,
+            },
             token: token,
         });
     } catch (error) {
