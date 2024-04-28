@@ -124,7 +124,7 @@ const loginOrganization = async (req, res) => {
                 OrganizationPhone: organization.OrganizationPhone,
                 OrganizationEmail: organization.OrganizationEmail,
             },
-            token: token,
+            bearerToken: token,
         });
     } catch (error) {
         res.status(400).json({ error: error });
