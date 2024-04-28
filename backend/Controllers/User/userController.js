@@ -134,10 +134,18 @@ const loginUser = async (req, res) => {
         const token = jwt.sign({ Userid: user.UserID, role: user.UserRole, UserOrganization: user.UserOrganization }, secretKey);
 
         res.status(200).json({
-            msg: "User Logged in Successfully",
-            data: user,
-            role: user.UserRole,
-            token: token,
+            msg: "تم تسجيل الدخول بنجاح",
+            data: {
+                UserID: user.UserID,
+                UserRole: user.UserRole,
+                UserFName: user.UserFName,
+                UserLName: user.UserLName,
+                UserEmail: user.UserEmail,
+                UserPhoneNumber: user.UserPhoneNumber,
+                isHeadOfDistribution: user.isHeadOfDistribution,
+                UserOrganization: user.UserOrganization
+            },
+            bearerToken: token,
         });
     }
     catch (error) {
