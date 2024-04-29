@@ -39,3 +39,45 @@
     }
 
 }
+
+.LoginPage {
+
+    .activeBtn {
+        background-color: $green-500;
+    }
+
+    Label {
+        cursor: text;
+    }
+
+    .backToLogin {
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+            color: $green-500 !important;
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .LoginPage {
+        background-image: url('../assets//pattern.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .Login {
+            background-color: rgba(0, 0, 0, 0.3);
+
+            .form {
+                border: 1px rgba(255, 255, 255, 0.88);
+                border-radius: 0.8rem;
+                background-color: rgba(255, 255, 255, 0.88) !important;
+            }
+        }
+    }
+}

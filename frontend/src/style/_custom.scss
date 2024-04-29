@@ -28,10 +28,20 @@ $btn-linear-gradient: linear-gradient(60deg, rgba(131, 94, 84, 1) 30%, rgba(33, 
     transition-duration: 0.5s;
 }
 
-// button {
-//     width: 100%;
-// }
+@mixin input {
+    display: flex;
+    padding: 0.625rem 0.875rem;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: stretch;
+    border-radius: 0.5rem;
+    border: 1px solid $gray-300;
+    background: $white;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    font-size: 1.25rem !important;
+}
 
+// button
 .button {
     @include button;
 }
@@ -40,6 +50,12 @@ $btn-linear-gradient: linear-gradient(60deg, rgba(131, 94, 84, 1) 30%, rgba(33, 
     @include btnHoverBg;
 }
 
+// input
+input {
+    @include input;
+}
+
+// bootstrap icons
 .bi {
     line-height: 0 !important;
 }
