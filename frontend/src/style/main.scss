@@ -40,6 +40,7 @@
 
 }
 
+.SignUpPage,
 .LoginPage {
 
     .activeBtn {
@@ -61,6 +62,7 @@
 }
 
 @media (min-width: 576px) {
+
     .LoginPage {
         background-image: url('../assets//pattern.jpg');
         background-size: cover;
@@ -80,4 +82,12 @@
             }
         }
     }
+}
+
+.PhoneInputCountrySelectArrow {
+    display: none !important;
+}
+
+.PhoneInputCountry {
+    margin-left: 0.5rem !important;
 }
