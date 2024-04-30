@@ -8,5 +8,6 @@ router.route("/api/organization/delete/:id").delete(organizationController.delet
 router.route("/api/organization/login").post(organizationController.loginOrganization);
 router.route("/api/organization/getAll").get(organizationController.getAllOrganizations);
 router.route("/api/organization/getById/:id").get(organizationController.getOrganizationById);
+router.route("/api/organization/getSelf").get(organizationController.getSelfOrganization);
 
 module.exports = router;

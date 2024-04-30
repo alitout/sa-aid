@@ -166,11 +166,25 @@ const getOrganizationById = async (req, res) => {
     }
 };
 
+// Get self Organization
+const getSelfOrganization = [verifyToken, async (req, res) => {
+    try {
+        const organization = await Organization.findOne({ OrganizationID: req.user.OrganizationID });
+        if (!organization) {
+            return res.status(404).send("المؤسسة غير موجودة");
+        }
+        res.status(200).json(organization);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+}];
+
 module.exports = {
     registerOrganization,
     updateOrganizationById,
     deleteOrganizationById,
     loginOrganization,
     getAllOrganizations,
-    getOrganizationById
+    getOrganizationById,
+    getSelfOrganization
 };
