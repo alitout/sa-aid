@@ -56,7 +56,9 @@ function LoginOrg() {
 
                 localStorage.setItem("bearerToken", bearerToken);
 
-                navigate(`/dashboard?userType=${userType}`);
+                localStorage.setItem("userType", userType);
+
+                navigate(`/dashboard`);
             } catch (error) {
                 console.log(error);
                 setFailedToLogin("فشل في تسجيل الدخول، يرجى المحاولة مرة أخرى")
@@ -77,6 +79,7 @@ function LoginOrg() {
                             البريد الالكتروني
                         </label>
                         <input
+                            autoComplete='off'
                             id='email'
                             type="email"
                             label="email"

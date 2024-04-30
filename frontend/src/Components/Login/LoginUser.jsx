@@ -56,7 +56,10 @@ function LoginUser() {
 
                 localStorage.setItem("bearerToken", bearerToken);
 
-                navigate(`/dashboard?userType=${userType}`);
+                localStorage.setItem("userType", userType);
+
+
+                navigate(`/dashboard`);
 
             } catch (error) {
                 console.log(error);
@@ -80,6 +83,7 @@ function LoginUser() {
                             البريد الالكتروني
                         </label>
                         <input
+                            autoComplete='off'
                             id='email'
                             type="email"
                             label="email"
