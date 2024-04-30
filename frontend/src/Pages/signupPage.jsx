@@ -83,7 +83,7 @@ function SignupPage() {
     };
 
     const navigateToSignIn = () => {
-        navigate('/login#organization');
+        navigate('/login#Organization');
     };
 
     const signup = async (e) => {
