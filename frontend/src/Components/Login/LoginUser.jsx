@@ -12,6 +12,7 @@ function LoginUser() {
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
     const [failedToLogin, setFailedToLogin] = useState(null);
+    const userType = 'User';
 
 
     // Event handlers
@@ -55,7 +56,7 @@ function LoginUser() {
 
                 localStorage.setItem("bearerToken", bearerToken);
 
-                navigate('/dashboard');
+                navigate(`/dashboard?userType=${userType}`);
 
             } catch (error) {
                 console.log(error);

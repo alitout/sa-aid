@@ -12,6 +12,7 @@ function LoginOrg() {
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
     const [failedToLogin, setFailedToLogin] = useState(null);
+    const userType = 'Organization';
 
 
     // Event handlers
@@ -55,7 +56,7 @@ function LoginOrg() {
 
                 localStorage.setItem("bearerToken", bearerToken);
 
-                navigate('/dashboard');
+                navigate(`/dashboard?userType=${userType}`);
             } catch (error) {
                 console.log(error);
                 setFailedToLogin("فشل في تسجيل الدخول، يرجى المحاولة مرة أخرى")

@@ -8,19 +8,19 @@ function LoginPage() {
     const navigate = useNavigate();
 
     // State variables
-    const [formType, setFormType] = useState('user');
+    const [userType, setUserType] = useState('User');
 
     // Function to show the form based on userType
     const showUserForm = (userType) => {
-        setFormType(userType);
+        setUserType(userType);
         window.location.hash = userType;
     };
 
     useEffect(() => {
         const handleHashChange = () => {
             const hash = window.location.hash.substring(1); // Remove the '#' from the hash
-            if (hash === 'user' || hash === 'organization') {
-                setFormType(hash);
+            if (hash === 'User' || hash === 'Organization') {
+                setUserType(hash);
             }
         };
         window.addEventListener('hashchange', handleHashChange);
@@ -45,23 +45,23 @@ function LoginPage() {
                     <div className="buttons d-flex justify-content-start px-3 pb-3">
                         <button
                             type="button"
-                            className={`button ms-2 fw-400 p-2 ${formType === 'user' ? 'activeBtn' : ''}`}
-                            onClick={() => showUserForm('user')}
+                            className={`button ms-2 fw-400 p-2 ${userType === 'User' ? 'activeBtn' : ''}`}
+                            onClick={() => showUserForm('User')}
                         >
                             مستخدم
                         </button>
 
                         <button
                             type="button"
-                            className={`button ms-2 fw-400 p-2 ${formType === 'organization' ? 'activeBtn' : ''}`}
-                            onClick={() => showUserForm('organization')}
+                            className={`button ms-2 fw-400 p-2 ${userType === 'Organization' ? 'activeBtn' : ''}`}
+                            onClick={() => showUserForm('Organization')}
                         >
                             مؤسسة
                         </button>
                     </div>
-                    <form className={`user-form ${formType ? 'active' : ''}`}>
-                        {formType === 'user' && (<LoginUser />)}
-                        {formType === 'organization' && (<LoginOrg />)}
+                    <form className={`user-form ${userType ? 'active' : ''}`}>
+                        {userType === 'User' && (<LoginUser />)}
+                        {userType === 'Organization' && (<LoginOrg />)}
                     </form>
                 </div>
             </div>
