@@ -8,16 +8,30 @@ function LoginPage() {
     const navigate = useNavigate();
 
     // State variables
-    const [formType, setFormType] = useState('user')
-    
-    // userType
+    const [formType, setFormType] = useState('user');
+
+    // Function to show the form based on userType
     const showUserForm = (userType) => {
         setFormType(userType);
+        window.location.hash = userType;
     };
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.substring(1); // Remove the '#' from the hash
+            if (hash === 'user' || hash === 'organization') {
+                setFormType(hash);
+            }
+        };
+        window.addEventListener('hashchange', handleHashChange);
+        handleHashChange();
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        };
+    }, []);
 
     localStorage.clear();
 
-    
     return (
         <section className='LoginPage'>
             <div className='Login d-flex flex-column justify-content-center align-items-center text-center col-12' style={{ height: '100vh' }}>
