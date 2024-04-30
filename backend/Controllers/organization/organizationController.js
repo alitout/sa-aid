@@ -22,28 +22,35 @@ const registerOrganization = async (req, res) => {
     try {
         const oldCode = await Organization.findOne({ OrganizationCode: req.body.OrganizationCode });
         if (oldCode) {
-            return res.status(400).send("Organization Code already exists");
+            return res.status(400).send("رمز المؤسسة مستخدم سابقا ");
         }
         const oldName = await Organization.findOne({ OrganizationName: req.body.OrganizationName });
         if (oldName) {
-            return res.status(400).send("Organization Name already exists");
+            return res.status(400).send("اسم المؤسسة مستخدم سابقا");
         }
         const oldPhone = await Organization.findOne({ OrganizationPhone: req.body.OrganizationPhone });
         if (oldPhone) {
-            return res.status(400).send("Organization Phone already exists");
+            return res.status(400).send("رقم الهاتف مستخدم سابقا");
         }
         const oldEmail = await Organization.findOne({ OrganizationEmail: req.body.OrganizationEmail });
         if (oldEmail) {
-            return res.status(400).send("Organization Email already exists");
+            return res.status(400).send("البريد الالكتروني مستخدم سابقا");
         }
         const oldOrganization = oldCode || oldName || oldPhone || oldEmail;
         if (oldOrganization) {
-            return res.status(400).send("Organization already exists");
+            return res.status(400).send("هذه المؤسسة موجودة مسبقا");
         }
         const savedOrganization = await newOrganization.save();
         res.status(200).json({
-            msg: "Organization Added Successfully",
-            data: savedOrganization,
+            msg: "تم اضافة المؤسسة بنجاح",
+            data: {
+                OrganizationID: savedOrganization.OrganizationID,
+                OrganizationCode: savedOrganization.OrganizationCode,
+                OrganizationName: savedOrganization.OrganizationName,
+                OrganizationAddress: savedOrganization.OrganizationAddress,
+                OrganizationPhone: savedOrganization.OrganizationPhone,
+                OrganizationEmail: savedOrganization.OrganizationEmail,
+            },
         });
     } catch (error) {
         res.status(400).json({ error: error });
