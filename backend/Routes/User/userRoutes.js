@@ -9,6 +9,7 @@ router.route("/api/user/login").post(userController.loginUser);
 router.route("/api/user/getAll").get(userController.getAllUsers);
 router.route("/api/user/getById/:id").get(userController.getUserById);
 router.route("/api/user/getByRole/:role").get(userController.getUserByRole);
+router.route("/api/user/getSelf").get(userController.getSelfUser);
 
 
 module.exports = router;

@@ -131,7 +131,7 @@ const loginUser = async (req, res) => {
         }
 
         // Create a JWT token
-        const token = jwt.sign({ Userid: user.UserID, role: user.UserRole, UserOrganization: user.UserOrganization }, secretKey);
+        const token = jwt.sign({ UserID: user.UserID, role: user.UserRole, UserOrganization: user.UserOrganization }, secretKey);
 
         res.status(200).json({
             msg: "تم تسجيل الدخول بنجاح",
@@ -221,6 +221,19 @@ const getUserByRole = [verifyToken, async (req, res) => {
     }
 }];
 
+// User getSelf
+const getSelfUser = [verifyToken, async (req, res) => {
+    try {
+        const user = await User.findOne({ UserID: req.user.UserID });
+        if (!user) {
+            return res.status(404).send("المستخدم غير موجود");
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({ error: error });
+    }
+}];
+
 module.exports = {
     addUser,
     updateUserById,
@@ -229,4 +242,5 @@ module.exports = {
     getAllUsers,
     getUserById,
     getUserByRole,
+    getSelfUser
 };
