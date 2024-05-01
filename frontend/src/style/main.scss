@@ -97,3 +97,13 @@
     color: white !important;
     border-radius: 0.375rem !important;
 }
+
+.dashboard {
+    .offcanvas.offcanvas-end {
+        top: 0;
+        right: 0;
+        max-width: 18rem;
+        border-left: 0;
+    }
+
+}

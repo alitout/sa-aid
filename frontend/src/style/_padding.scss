@@ -1,5 +1,36 @@
 // Paddings
 
+// padding 0.75rem
+.pt-0_75 {
+    padding-top: 0.75rem;
+}
+
+.pb-0_75 {
+    padding-bottom: 0.75rem;
+}
+
+.ps-0_75 {
+    padding-left: 0.75rem;
+}
+
+.pe-0_75 {
+    padding-right: 0.75rem;
+}
+
+.px-0_75 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.py-0_75 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.p-0_75 {
+    padding: 0.75rem;
+}
+
 // padding 2rem
 .pt-2_0 {
     padding-top: 2rem;
@@ -31,6 +62,7 @@
     padding: 2rem;
 }
 
+// padding 6rem
 .pt-6_0 {
     padding-top: 6rem;
 }

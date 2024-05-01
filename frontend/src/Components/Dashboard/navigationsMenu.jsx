@@ -16,6 +16,7 @@ import Building08 from '@untitled-ui/icons-react/build/cjs/Building08';
 import CoinsHand from '@untitled-ui/icons-react/build/cjs/CoinsHand';
 import Settings01 from '@untitled-ui/icons-react/build/cjs/Settings01';
 import LogOut01 from '@untitled-ui/icons-react/build/cjs/LogOut01';
+import XClose from '@untitled-ui/icons-react/build/cjs/XClose';
 
 
 const pageCodeIcons = {
@@ -27,7 +28,7 @@ const pageCodeIcons = {
     "التوزيعات": CoinsHand
 }
 
-function NavigationsMenu({ userType }) {
+function NavigationsMenu({ userType, toggleMenu }) {
     const navigate = useNavigate();
     const location = useLocation(); // Get the current location
 
@@ -109,13 +110,16 @@ function NavigationsMenu({ userType }) {
     }
 
     return (
-        <div className='d-flex flex-column align-items-stretch border-start fixed' style={{ width: '20vw', height: '100vh' }}>
+        <div className='d-flex flex-column align-items-stretch border-start fixed' style={{ maxWidth: '18rem', height: '100vh' }}>
             {name &&
                 <div className="">
-                    <div className='fs-3 fw-700 text-white text-center p-3 py-4 bg-brown-200 '>
-                        {name}
+                    <div className='d-flex justify-content-start align-items-center fs-3 fw-700 text-white text-center p-3 py-4 bg-green-500 '>
+                        <div className='uiIcon ps-2 text-reset d-flex d-md-none' data-bs-dismiss="offcanvas" onClick={toggleMenu}>{React.createElement(XClose, { width: '1.5rem', height: '1.5rem' })}</div>
+                        <div>
+                            {name}
+                        </div>
                     </div>
-                    <div className="bg-green-500" style={{ height: '0.75rem' }}></div>
+                    <div className="bg-brown-200" style={{ height: '0.75rem' }}></div>
                 </div>
             }
             <div className='d-flex flex-column flex-fill justify-content-between'>
@@ -136,7 +140,7 @@ function NavigationsMenu({ userType }) {
                                 key={subKey}
                                 onClick={() => handleSubValueClick(subValue)} // Add onClick handler to subValue
                             >
-                                {pageCodeIcons[subValue] && <div className='uiIcon ps-2'>{React.createElement(pageCodeIcons[subValue], { width: '1.5rem', height: '1.5rem' })}</div>}
+                                {pageCodeIcons[subValue] && <div className='uiIcon ps-2 d-flex'>{React.createElement(pageCodeIcons[subValue], { width: '1.5rem', height: '1.5rem' })}</div>}
                                 {subValue}
                             </div>
                         ))}
