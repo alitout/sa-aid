@@ -59,7 +59,7 @@ function LoginUser() {
                 localStorage.setItem("userType", userType);
 
 
-                navigate(`/dashboard`);
+                navigate(`/dashboard/directReport`);
 
             } catch (error) {
                 console.log(error);

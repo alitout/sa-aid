@@ -17,6 +17,9 @@ function LoginPage() {
     };
 
     useEffect(() => {
+        if (localStorage.getItem('bearerToken')) {
+            navigate('/dashboard/directReport');
+        }
         const handleHashChange = () => {
             const hash = window.location.hash.substring(1); // Remove the '#' from the hash
             if (hash === 'User' || hash === 'Organization') {
@@ -30,7 +33,6 @@ function LoginPage() {
         };
     }, []);
 
-    localStorage.clear();
 
     return (
         <section className='LoginPage'>

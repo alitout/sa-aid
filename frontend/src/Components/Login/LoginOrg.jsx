@@ -58,7 +58,7 @@ function LoginOrg() {
 
                 localStorage.setItem("userType", userType);
 
-                navigate(`/dashboard`);
+                navigate(`/dashboard/directReport`);
             } catch (error) {
                 console.log(error);
                 setFailedToLogin("فشل في تسجيل الدخول، يرجى المحاولة مرة أخرى")
