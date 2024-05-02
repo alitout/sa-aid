@@ -53,10 +53,13 @@ function LoginUser() {
                 const response = await axios.post(USER_LOGIN, loginRequest);
 
                 const bearerToken = response.data.bearerToken;
+                const userRole = response.data.data.UserRole;
 
                 localStorage.setItem("bearerToken", bearerToken);
 
                 localStorage.setItem("userType", userType);
+
+                localStorage.setItem("userRole", userRole);
 
 
                 navigate(`/dashboard/directReport`);
