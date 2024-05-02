@@ -16,9 +16,9 @@ export const routeMapping = {
     "الإعدادات": "/settings",
 };
 
+export const AccessDenied = () => <div>You can't access this page</div>
 
 const Routes = () => {
-    // const AccessDenied = () => <div>You can't access this page</div>
     const routes = useRoutes([
         // homePage
         { path: '/', element: <HomePage /> },

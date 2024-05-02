@@ -36,36 +36,39 @@ function Dashboard() {
     }
 
     return (
-        <div className='d-flex dashboard'>
-            <div className="d-none d-md-flex">
-                <div className='border-end'>
-                    <NavigationsMenu userType={userType} />
-                </div>
-                <div className='dashboard'>
-                    <DashboardItem />
+        <div>
+            <div className='d-flex dashboard'>
+                <div className="flex-fill d-none d-md-flex">
+                    <div className='border-end'>
+                        <NavigationsMenu userType={userType} />
+                    </div>
+                    <div className='dashboard flex-fill py-4 px-sm-4'>
+                        <DashboardItem />
+                    </div>
                 </div>
             </div>
-
-            <div className="d-flex flex-column w-100 d-md-none">
-                <div className="header border-bottom d-flex justify-content-between w-100 py-0_75">
-                    <div className="align-self-center">
-                        {/* offcanvas on mobile view md and smaller */}
-                        <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-                            <Menu01 />
-                        </button>
-                        <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-                            <div class="offcanvas-body p-0">
-                                <NavigationsMenu userType={userType} toggleMenu={toggleMenu} />
+            <div>
+                <div className="d-flex flex-column w-100 d-md-none">
+                    <div className="header border-bottom d-flex justify-content-between w-100 py-0_75">
+                        <div className="align-self-center">
+                            {/* offcanvas on mobile view md and smaller */}
+                            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                                <Menu01 />
+                            </button>
+                            <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+                                <div class="offcanvas-body p-0">
+                                    <NavigationsMenu userType={userType} toggleMenu={toggleMenu} />
+                                </div>
                             </div>
                         </div>
+                        <div className="m-auto">
+                            <Logo />
+                        </div>
+                        <div style={{ width: '50px' }}></div>
                     </div>
-                    <div className="m-auto">
-                        <Logo />
+                    <div className='dashboard container py-4'>
+                        <DashboardItem />
                     </div>
-                    <div style={{ width: '50px' }}></div>
-                </div>
-                <div className='dashboard container'>
-                    <DashboardItem />
                 </div>
             </div>
         </div>
