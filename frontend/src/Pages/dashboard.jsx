@@ -42,7 +42,7 @@ function Dashboard() {
                     <div className='border-end'>
                         <NavigationsMenu userType={userType} />
                     </div>
-                    <div className='dashboard flex-fill py-4 px-sm-4'>
+                    <div className='dashboard flex-fill py-4 px-sm-4 px-xxl-5'>
                         <DashboardItem />
                     </div>
                 </div>
