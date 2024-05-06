@@ -1,0 +1,14 @@
+{
+    "UserID": "رمز المستخدم",
+    "UserFName": "الاسم",
+    "UserLName": "العائلة",
+    "UserEmail": "البريد الالكتروني",
+    "UserPhoneNumber": "رقم الهاتف",
+    "UserDOB": "تاريخ الولادة",
+    "UserNationality": "الجنسية",
+    "UserGender": "الجنس",
+    "UserAddress": "العنوان",
+    "UserRole": "الدور",
+    "isHeadOfDistribution": "مسؤول توزيعة؟",
+    "UserOrganization": "رمز المؤسسة"
+}

@@ -1,10 +1,11 @@
 import React from 'react';
 import DirectReport from './directReport';
 import { useParams } from 'react-router-dom';
+import Users from './users';
 
 const ComponentMapping = {
     "directReport": DirectReport,
-    // "users": Users,
+    "users": Users,
     // "families": Families,
     // "beneficiaries": Beneficiaries,
     // "stocks": Stocks,

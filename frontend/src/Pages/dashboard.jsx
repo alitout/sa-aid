@@ -42,7 +42,7 @@ function Dashboard() {
                     <div className='border-end'>
                         <NavigationsMenu userType={userType} />
                     </div>
-                    <div className='dashboard flex-fill py-4 px-sm-4 px-xxl-5'>
+                    <div className='dashboard container flex-fill my-4' style={{ maxHeight: '100vh', maxWidth: 'calc(100vw - 16rem)' }}>
                         <DashboardItem />
                     </div>
                 </div>
@@ -66,7 +66,7 @@ function Dashboard() {
                         </div>
                         <div style={{ width: '50px' }}></div>
                     </div>
-                    <div className='dashboard container py-4'>
+                    <div className='dashboard container my-4'>
                         <DashboardItem />
                     </div>
                 </div>

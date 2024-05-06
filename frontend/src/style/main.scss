@@ -108,3 +108,16 @@
     max-width: 18rem;
     border-left: 0;
 }
+
+th,
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    z-index: 1;
+}
