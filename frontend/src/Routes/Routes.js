@@ -4,7 +4,7 @@ import HomePage from '../Pages/homePage';
 import LoginPage from '../Pages/loginPage';
 import SignupPage from '../Pages/signupPage';
 import Dashboard from '../Pages/dashboard';
-import DirectReport from '../Components/Dashboard/directReport';
+import DirectReport from '../Components/Dashboard/dashboardItems/directReport/directReport';
 
 export const routeMapping = {
     "التقرير المباشر": "/directReport",
@@ -31,6 +31,7 @@ const Routes = () => {
 
         // Nested routes for Dashboard
         { path: '/dashboard/:route', element: <Dashboard /> },
+        
 
     ]);
 
