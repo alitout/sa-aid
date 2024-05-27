@@ -1,0 +1,13 @@
+{
+    "FamilyMembers": "عدد أفراد العائلة",
+    "FamilyCountry": "البلد",
+    "FamilyCity": "المنطقة",
+    "FamilyStreet": "الشارع",
+    "FamilyBuilding": "البناء",
+    "FamilyFloor": "الطابق",
+    "FamilyFloorPart": "الجهة",
+    "FamilyHomePhoneNumber": "الهاتف الأرضي",
+    "HaveCar": "هل تمتلك سيارة",
+    "Type": "القرار",
+    "FamilyID": "رمز العائلة"
+}

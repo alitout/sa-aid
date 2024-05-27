@@ -20,7 +20,7 @@ export const USER_LOGIN = 'http://localhost:3000/api/user/login';
 // user
 export const ORG_ADDUSER = 'http://localhost:3000/api/user/add';
 // family
-export const ORG_ADDFAMILY = 'http://localhost:3000/api/family/add';
+export const ADDFAMILY = 'http://localhost:3000/api/family/add';
 
 
 // get
@@ -45,8 +45,12 @@ export const GETFAMILYBYID = 'http://localhost:3000/api/family/getById/';
 // update
 // user
 export const ORG_UPDATEUSERBYID = 'http://localhost:3000/api/user/update/';
+// family
+export const UPDATEFAMILYBYID = 'http://localhost:3000/api/family/update/';
 
 
 // delete
 // user
 export const ORG_DELETEUSERBYID = 'http://localhost:3000/api/user/delete/';
+// family
+export const DELETEFAMILYBYID = 'http://localhost:3000/api/family/delete/';
