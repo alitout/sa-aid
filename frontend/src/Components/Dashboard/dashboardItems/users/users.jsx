@@ -26,7 +26,7 @@ function Users() {
     const [isOrganization, setIsOrganization] = useState(false);
     const [isUser, setIsUser] = useState(false);
     const [isDistributionsAdmin, setIsDistributionsAdmin] = useState(false);
-    const [isBeneciariesAdmin, setIsBeneciariesAdmin] = useState(false);
+    const [isBeneficiariesAdmin, setIsBeneficiariesAdmin] = useState(false);
     const [isNotAdmin, setIsNotAdmin] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [showFilters, setShowFilters] = useState(false);
@@ -114,16 +114,16 @@ function Users() {
 
             if (userRole === 'Distributions admin') {
                 setIsDistributionsAdmin(true);
-                setIsBeneciariesAdmin(false);
+                setIsBeneficiariesAdmin(false);
                 setIsNotAdmin(false);
             } else if (userRole === 'Beneficiaries admin') {
-                setIsBeneciariesAdmin(true);
+                setIsBeneficiariesAdmin(true);
                 setIsDistributionsAdmin(false);
                 setIsNotAdmin(false);
             } else {
                 setIsNotAdmin(true);
                 setIsDistributionsAdmin(false);
-                setIsBeneciariesAdmin(false);
+                setIsBeneficiariesAdmin(false);
             }
         }
         const getUsers = async () => {
