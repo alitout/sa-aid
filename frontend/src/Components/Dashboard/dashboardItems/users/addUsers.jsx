@@ -4,8 +4,9 @@ import PhoneInput from 'react-phone-number-input'
 import axios from 'axios';
 import { ORG_ADDUSER } from '../../../../externalApi/ExternalUrls';
 import { globalVariables } from '../../../../Global/globalVariables';
+import Modal from 'react-bootstrap/Modal';
 
-function AddUsers({ auth, onSave }) {
+function AddUsers({ show, handleClose, auth, onSave }) {
     const allCountryCodes = globalVariables.allCountryCodes;
 
     // State variables
@@ -152,216 +153,226 @@ function AddUsers({ auth, onSave }) {
     }
 
     return (
-        <div className="AddUser container d-flex flex-column col-12 m-auto">
-            {addUserSuccess &&
-                <div className="alert alert-success mb-4">
-                    {addUserSuccess}
-                </div>}
-            {addUserFail &&
-                <div className="alert alert-danger mb-4">
-                    {addUserFail}
-                </div>}
-            <form className='inputs container d-flex flex-column row-gap-1 px-3'>
-                <div className="d-flex flex-wrap justify-content-start row-gap-1 column-gap-3">
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            الإسم الأول <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='text'
-                                className={`form-control ${isFNameEmpty ? 'is-invalid' : ''}`}
-                                placeholder='الإسم الأول'
-                                onChange={handleFNameChange}
-                            />
-                            {isFNameEmpty &&
-                                <div className='invalid-feedback align-self-start'>
-                                    الإسم الأول مطلوب
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            الإسم الأخير <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='text'
-                                className={`form-control ${isLNameEmpty ? 'is-invalid' : ''}`}
-                                placeholder='الإسم الأخير'
-                                onChange={handleLNameChange}
-                            />
-                            {isLNameEmpty &&
-                                <div className='invalid-feedback'>
-                                    الإسم الأخير مطلوب
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            البريد الإلكتروني <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='email'
-                                className={`form-control ${!isEmailValid ? 'is-invalid' : ''}`}
-                                placeholder='البريد الإلكتروني'
-                                onChange={handleEmailChange}
-                            />
-                            {!isEmailValid &&
-                                <div className='invalid-feedback'>
-                                    البريد الإلكتروني غير صحيح
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            كلمة المرور <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='password'
-                                className={`form-control ${isPasswordEmpty ? 'is-invalid' : ''}`}
-                                placeholder='كلمة المرور'
-                                onChange={handlePasswordChange}
-                            />
-                            {isPasswordEmpty &&
-                                <div className='invalid-feedback'>
-                                    كلمة المرور مطلوبة
-                                </div>}
-                        </div>
-                    </div>
-                    <div className="input input-phone d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill">
-                        <label className="text-black fs-4 fw-500 align-self-start">
-                            رقم الهاتف<span className='text-danger'> *</span>
-                        </label>
-                        <div>
-                            <PhoneInput
-                                placeholder="رقم الهاتف"
-                                value={userPhoneNumber}
-                                onChange={handlePhoneChange}
-                                countries={allCountryCodes}
-                                defaultCountry='LB'
-                            />
-                            {isPhoneEmpty && (
-                                <div className="text-danger align-self-start">
-                                    الرقم لا يمكن أن يكون فارغا
+        <Modal
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+        >
+            <Modal.Header closeButton />
+            <Modal.Body>
+                <div className="AddUser container d-flex flex-column col-12 m-auto">
+                    {addUserSuccess &&
+                        <div className="alert alert-success mb-4">
+                            {addUserSuccess}
+                        </div>}
+                    {addUserFail &&
+                        <div className="alert alert-danger mb-4">
+                            {addUserFail}
+                        </div>}
+                    <form className='inputs container d-flex flex-column row-gap-1 px-3'>
+                        <div className="d-flex flex-wrap justify-content-start row-gap-1 column-gap-3">
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    الإسم الأول <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='text'
+                                        className={`form-control ${isFNameEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='الإسم الأول'
+                                        onChange={handleFNameChange}
+                                    />
+                                    {isFNameEmpty &&
+                                        <div className='invalid-feedback align-self-start'>
+                                            الإسم الأول مطلوب
+                                        </div>}
                                 </div>
-                            )}
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    الإسم الأخير <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='text'
+                                        className={`form-control ${isLNameEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='الإسم الأخير'
+                                        onChange={handleLNameChange}
+                                    />
+                                    {isLNameEmpty &&
+                                        <div className='invalid-feedback'>
+                                            الإسم الأخير مطلوب
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    البريد الإلكتروني <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='email'
+                                        className={`form-control ${!isEmailValid ? 'is-invalid' : ''}`}
+                                        placeholder='البريد الإلكتروني'
+                                        onChange={handleEmailChange}
+                                    />
+                                    {!isEmailValid &&
+                                        <div className='invalid-feedback'>
+                                            البريد الإلكتروني غير صحيح
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    كلمة المرور <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='password'
+                                        className={`form-control ${isPasswordEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='كلمة المرور'
+                                        onChange={handlePasswordChange}
+                                    />
+                                    {isPasswordEmpty &&
+                                        <div className='invalid-feedback'>
+                                            كلمة المرور مطلوبة
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className="input input-phone d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill">
+                                <label className="text-black fs-4 fw-500 align-self-start">
+                                    رقم الهاتف<span className='text-danger'> *</span>
+                                </label>
+                                <div>
+                                    <PhoneInput
+                                        placeholder="رقم الهاتف"
+                                        value={userPhoneNumber}
+                                        onChange={handlePhoneChange}
+                                        countries={allCountryCodes}
+                                        defaultCountry='LB'
+                                    />
+                                    {isPhoneEmpty && (
+                                        <div className="text-danger align-self-start">
+                                            الرقم لا يمكن أن يكون فارغا
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    تاريخ الميلاد <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='date'
+                                        className={`form-control ${isDOBEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='تاريخ الميلاد'
+                                        onChange={handleDOBChange}
+                                    />
+                                    {isDOBEmpty &&
+                                        <div className='invalid-feedback'>
+                                            تاريخ الميلاد مطلوب
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    الجنسية <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='text'
+                                        className={`form-control ${isNationalityEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='الجنسية'
+                                        onChange={handleNationalityChange}
+                                    />
+                                    {isNationalityEmpty &&
+                                        <div className='invalid-feedback'>
+                                            الجنسية مطلوبة
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    الجنس <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <select
+                                        className={`form-control ${isGenderEmpty ? 'is-invalid' : ''}`}
+                                        onChange={handleGenderChange}>
+                                        <option value=''>الجنس</option>
+                                        <option value='ذكر'>ذكر</option>
+                                        <option value='أنثى'>أنثى</option>
+                                    </select>
+                                    {isGenderEmpty &&
+                                        <div className='invalid-feedback'>
+                                            الجنس مطلوب
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    العنوان <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <input
+                                        type='text'
+                                        className={`form-control ${isAddressEmpty ? 'is-invalid' : ''}`}
+                                        placeholder='العنوان'
+                                        onChange={handleAddressChange}
+                                    />
+                                    {isAddressEmpty &&
+                                        <div className='invalid-feedback'>
+                                            العنوان مطلوب
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <label className='text-black fs-4 fw-500 align-self-start'>
+                                    الدور <span className='text-danger'>*</span>
+                                </label>
+                                <div>
+                                    <select
+                                        className={`form-control ${isRoleEmpty ? 'is-invalid' : ''}`}
+                                        onChange={handleRoleChange}>
+                                        <option value="none">الدور</option>
+                                        <option value='not admin'>not admin</option>
+                                        <option value='Distributions admin'>Distributions admin</option>
+                                        <option value='Beneficiaries admin'>Beneficiaries admin</option>
+                                    </select>
+                                    {isRoleEmpty &&
+                                        <div className='invalid-feedback'>
+                                            الدور مطلوب
+                                        </div>}
+                                </div>
+                            </div>
+                            <div className='input input-code form-check d-flex mb-1_25 gap-5 col-12 col-sm-4 flex-fill p-0'>
+                                <input
+                                    type='checkbox'
+                                    className='form-check-input'
+                                    style={{ padding: '0.75rem' }}
+                                    id='headOfDistribution'
+                                    onChange={handleUserHeadOfDistributionChange}
+                                />
+                                <label className='text-black fs-4 fw-500 d-flex align-self-start'>
+                                    مسؤول توزيعة؟
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            تاريخ الميلاد <span className='text-danger'>*</span>
-                        </label>
                         <div>
-                            <input
-                                type='date'
-                                className={`form-control ${isDOBEmpty ? 'is-invalid' : ''}`}
-                                placeholder='تاريخ الميلاد'
-                                onChange={handleDOBChange}
-                            />
-                            {isDOBEmpty &&
-                                <div className='invalid-feedback'>
-                                    تاريخ الميلاد مطلوب
-                                </div>}
+                            <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                <button
+                                    type='submit'
+                                    className='button'
+                                    onClick={addUser}>
+                                    إضافة
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            الجنسية <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='text'
-                                className={`form-control ${isNationalityEmpty ? 'is-invalid' : ''}`}
-                                placeholder='الجنسية'
-                                onChange={handleNationalityChange}
-                            />
-                            {isNationalityEmpty &&
-                                <div className='invalid-feedback'>
-                                    الجنسية مطلوبة
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            الجنس <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <select
-                                className={`form-control ${isGenderEmpty ? 'is-invalid' : ''}`}
-                                onChange={handleGenderChange}>
-                                <option value=''>الجنس</option>
-                                <option value='ذكر'>ذكر</option>
-                                <option value='أنثى'>أنثى</option>
-                            </select>
-                            {isGenderEmpty &&
-                                <div className='invalid-feedback'>
-                                    الجنس مطلوب
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            العنوان <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <input
-                                type='text'
-                                className={`form-control ${isAddressEmpty ? 'is-invalid' : ''}`}
-                                placeholder='العنوان'
-                                onChange={handleAddressChange}
-                            />
-                            {isAddressEmpty &&
-                                <div className='invalid-feedback'>
-                                    العنوان مطلوب
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <label className='text-black fs-4 fw-500 align-self-start'>
-                            الدور <span className='text-danger'>*</span>
-                        </label>
-                        <div>
-                            <select
-                                className={`form-control ${isRoleEmpty ? 'is-invalid' : ''}`}
-                                onChange={handleRoleChange}>
-                                <option value='not admin'>not admin</option>
-                                <option value='Distributions admin'>Distributions admin</option>
-                                <option value='Beneficiaries admin'>Beneficiaries admin</option>
-                            </select>
-                            {isRoleEmpty &&
-                                <div className='invalid-feedback'>
-                                    الدور مطلوب
-                                </div>}
-                        </div>
-                    </div>
-                    <div className='input input-code form-check d-flex mb-1_25 gap-5 col-12 col-sm-4 flex-fill p-0'>
-                        <input
-                            type='checkbox'
-                            className='form-check-input'
-                            style={{ padding: '0.75rem' }}
-                            id='headOfDistribution'
-                            onChange={handleUserHeadOfDistributionChange}
-                        />
-                        <label className='text-black fs-4 fw-500 d-flex align-self-start'>
-                            مسؤول توزيعة؟
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
-                        <button
-                            type='submit'
-                            className='button'
-                            onClick={addUser}>
-                            إضافة
-                        </button>
-                    </div>
-                </div>
-            </form >
-        </div >
+                    </form >
+                </div >
+            </Modal.Body>
+        </Modal>
     )
 }
 

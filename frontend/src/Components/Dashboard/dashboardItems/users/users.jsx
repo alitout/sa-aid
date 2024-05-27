@@ -36,17 +36,10 @@ function Users() {
     const [noUsers, setNoUsers] = useState(true);
     const [columns, setColumns] = useState([]);
     const [validKeys, setValidKeys] = useState([]);
-    const [showAddUsers, setShowAddUsers] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedUserData, setSelectedUserData] = useState({});
-
-    const toggleAddUsers = () => {
-        setShowAddUsers(!showAddUsers);
-        setShowAddModal(!showAddModal);
-    };
-
 
     // Function to toggle the visibility of the filters in the table
     const toggleFilters = () => {
@@ -243,132 +236,122 @@ function Users() {
         return (
             <div className="">
                 <div className='d-flex flex-column w-100' style={{ maxHeight: '95vh' }}>
-                    {!showAddUsers && (
-                        <>
-                            <div className="header d-flex flex-row w-100 justify-content-between gap-3">
-                                <div className="title fs-3 fw-700">
-                                    إدارة المستخدمين
-                                </div>
-                                {isOrganization &&
-                                    <div className="action">
-                                        <button className="button d-none d-sm-flex gap-2" onClick={toggleAddUsers}>
-                                            <UserPlus01 />
-                                            إضافة مستخدم
-                                        </button>
-                                        <button className="button d-sm-none" onClick={toggleAddUsers}>
-                                            <UserPlus01 />
-                                        </button>
-                                    </div>
-                                }
+                    <>
+                        <div className="header d-flex flex-row w-100 justify-content-between gap-3">
+                            <div className="title fs-3 fw-700">
+                                إدارة المستخدمين
                             </div>
-                            <div className="subHeader d-flex align-items-center justify-content-center w-100 py-0_75 gap-3">
-                                <div className="subTitle fs-5 fw-500 d-none d-md-block ms-auto">
-                                    {isOrganization &&
-                                        <span>أضف و</span>}
-                                    راقب ونظم حركة المستخدمين
-                                </div>
-                                <div className='Search d-flex gap-3'>
-                                    <div className="searchBar">
-                                        <SearchBar onSearchChange={setSearchInput} />
-                                    </div>
-                                    <button
-                                        className={`filterIcon d-flex justify-content-center align-items-center border rounded p-2 ${showFilters ? 'bg-green-500 text-white' : 'bg-white'}`}
-                                        onClick={toggleFilters}
-                                    >
-                                        <FilterLines />
+                            {isOrganization &&
+                                <div className="action">
+                                    <button className="button d-none d-sm-flex gap-2" onClick={() => setShowAddModal(true)}>
+                                        <UserPlus01 />
+                                        إضافة مستخدم
+                                    </button>
+                                    <button className="button d-sm-none" onClick={() => setShowAddModal(true)}>
+                                        <UserPlus01 />
                                     </button>
                                 </div>
+                            }
+                        </div>
+                        <div className="subHeader d-flex align-items-center justify-content-center w-100 py-0_75 gap-3">
+                            <div className="subTitle fs-5 fw-500 d-none d-md-block ms-auto">
+                                {isOrganization &&
+                                    <span>أضف و</span>}
+                                راقب ونظم حركة المستخدمين
                             </div>
-                            {noUsers ? (
-                                <div className="d-flex justify-content-center align-items-center flex-fill mt-5 mt-md-1">
-                                    <div className="text-center">
-                                        <UsersX />
-                                        <div className="fs-4 fw-500">لا يوجد مستخدمين</div>
-                                        {isOrganization && (
-                                            <div className='d-flex flex-column align-items-center gap-2'>
-                                                <div className="fs-5 fw-400">يبدو أنك لم تقم بإضافة مستخدمين بعد</div>
-                                                <button className="button d-flex gap-2" onClick={toggleAddUsers}>
-                                                    <UserPlus01 />
-                                                    إضافة مستخدم
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
+                            <div className='Search d-flex gap-3'>
+                                <div className="searchBar">
+                                    <SearchBar onSearchChange={setSearchInput} />
                                 </div>
-                            ) : (
-                                <div className="table-responsive border rounded flex-fill" style={{ overflowY: 'auto' }}>
-                                    <table {...getTableProps()} className="table">
-                                        <thead>
-                                            {headerGroups.map(headerGroup => (
-                                                <tr {...headerGroup.getHeaderGroupProps()}>
-                                                    {headerGroup.headers.map(column => (
-                                                        <th {...column.getHeaderProps()}>
-                                                            <div className='filterIcon bg-white d-inline'>
-                                                                {column.render('Header')}
-                                                                {showFilters &&
-                                                                    <>
-                                                                        <FilterLines className={`me-2 ${column.filterValue ? 'active-filter-icon text-green-500' : ''}`} style={{ width: '1rem' }} onClick={() => toggleColumnFilter(column.id)} />
-                                                                        {filtersVisibility[column.id] && // Check visibility state here
-                                                                            <div>
-                                                                                {column.canFilter ? column.render('Filter', { visible: true }) : null}
-                                                                            </div>
-                                                                        }
-                                                                    </>
-                                                                }
-                                                            </div>
-                                                        </th>
-                                                    ))}
-                                                </tr>
-                                            ))}
-                                        </thead>
-                                        <tbody {...getTableBodyProps()}>
-                                            {rows.filter(row => {
-                                                const user = row.original;
-                                                const includesSearch = Object.values(user)
-                                                    .filter((_, index) => validKeys.includes(Object.keys(user)[index]))
-                                                    .some(value => String(value).toLowerCase().includes(searchInput.toLowerCase()));
-
-                                                return includesSearch;
-                                            }).map((row, i) => {
-                                                prepareRow(row);
-                                                return (
-                                                    <tr {...row.getRowProps()}>
-                                                        {row.cells.map(cell => {
-                                                            if (cell.column.id === 'isHeadOfDistribution') {
-                                                                return <td {...cell.getCellProps()}>{cell.value ? "نعم" : "لا"}</td>;
-                                                            } else if (cell.column.id === 'UserDOB') {
-                                                                return <td {...cell.getCellProps()}>{new Date(cell.value).toLocaleDateString()}</td>;
+                                <button
+                                    className={`filterIcon d-flex justify-content-center align-items-center border rounded p-2 ${showFilters ? 'bg-green-500 text-white' : 'bg-white'}`}
+                                    onClick={toggleFilters}
+                                >
+                                    <FilterLines />
+                                </button>
+                            </div>
+                        </div>
+                        {noUsers ? (
+                            <div className="d-flex justify-content-center align-items-center flex-fill mt-5 mt-md-1">
+                                <div className="text-center">
+                                    <UsersX />
+                                    <div className="fs-4 fw-500">لا يوجد مستخدمين</div>
+                                    {isOrganization && (
+                                        <div className='d-flex flex-column align-items-center gap-2'>
+                                            <div className="fs-5 fw-400">يبدو أنك لم تقم بإضافة مستخدمين بعد</div>
+                                            <button className="button d-flex gap-2" onClick={() => setShowAddModal(true)}>
+                                                <UserPlus01 />
+                                                إضافة مستخدم
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="table-responsive border rounded flex-fill" style={{ overflowY: 'auto' }}>
+                                <table {...getTableProps()} className="table">
+                                    <thead>
+                                        {headerGroups.map(headerGroup => (
+                                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                                {headerGroup.headers.map(column => (
+                                                    <th {...column.getHeaderProps()}>
+                                                        <div className='filterIcon bg-white d-inline'>
+                                                            {column.render('Header')}
+                                                            {showFilters &&
+                                                                <>
+                                                                    <FilterLines className={`me-2 ${column.filterValue ? 'active-filter-icon text-green-500' : ''}`} style={{ width: '1rem' }} onClick={() => toggleColumnFilter(column.id)} />
+                                                                    {filtersVisibility[column.id] && // Check visibility state here
+                                                                        <div>
+                                                                            {column.canFilter ? column.render('Filter', { visible: true }) : null}
+                                                                        </div>
+                                                                    }
+                                                                </>
                                                             }
-                                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                                        })}
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
-                        </>
-                    )}
+                                                        </div>
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </thead>
+                                    <tbody {...getTableBodyProps()}>
+                                        {rows.filter(row => {
+                                            const user = row.original;
+                                            const includesSearch = Object.values(user)
+                                                .filter((_, index) => validKeys.includes(Object.keys(user)[index]))
+                                                .some(value => String(value).toLowerCase().includes(searchInput.toLowerCase()));
+
+                                            return includesSearch;
+                                        }).map((row, i) => {
+                                            prepareRow(row);
+                                            return (
+                                                <tr {...row.getRowProps()}>
+                                                    {row.cells.map(cell => {
+                                                        if (cell.column.id === 'isHeadOfDistribution') {
+                                                            return <td {...cell.getCellProps()}>{cell.value ? "نعم" : "لا"}</td>;
+                                                        } else if (cell.column.id === 'UserDOB') {
+                                                            return <td {...cell.getCellProps()}>{new Date(cell.value).toLocaleDateString()}</td>;
+                                                        }
+                                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                                    })}
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </>
                 </div>
-                {isOrganization && showAddUsers && (
-                    <Modal
+                {isOrganization && showAddModal && (
+                    <AddUsers
                         show={showAddModal}
-                        backdrop="static"
-                        onHide={() => toggleAddUsers()}
-                    >
-                        <Modal.Header closeButton>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <AddUsers
-                                auth={auth}
-                                onSave={() => {
-                                    toggleAddUsers();
-                                    window.location.reload();
-                                }}
-                            />
-                        </Modal.Body>
-                    </Modal>
+                        handleClose={() => setShowAddModal(false)}
+                        onSave={() => {
+                            setShowAddModal(false);
+                            window.location.reload();
+                        }}
+                        auth={auth}
+                    />
                 )}
                 {isOrganization && showEditModal && (
                     <EditUser
@@ -400,7 +383,7 @@ function Users() {
                         </Modal.Body>
                         <Modal.Footer>
                             <button onClick={() => setShowDeleteModal(false)} className='button'>رجوع</button>
-                            <button  onClick={() => handleConfirmDelete(selectedUserData.UserID)} className='button'>تأكيد</button>
+                            <button onClick={() => handleConfirmDelete(selectedUserData.UserID)} className='button'>تأكيد</button>
                         </Modal.Footer>
                     </Modal>
                 )}
