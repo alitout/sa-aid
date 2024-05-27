@@ -2,15 +2,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AccessDenied } from '../../../../Routes/Routes';
 import SearchBar from '../../searchBar';
 import axios from 'axios';
-import { ORG_GETALLUSERS } from '../../../../externalApi/ExternalUrls';
+import { ORG_DELETEUSERBYID, ORG_GETALLUSERS, ORG_GETUSERBYID } from '../../../../externalApi/ExternalUrls';
 import userFields from '../../../../fields/users.json';
 import { useTable, useFilters } from 'react-table';
 import Modal from 'react-bootstrap/Modal';
+import AddUsers from './addUsers';
+import EditUser from './editUser';
 
 import FilterLines from '@untitled-ui/icons-react/build/cjs/FilterLines';
 import UserPlus01 from '@untitled-ui/icons-react/build/cjs/UserPlus01';
 import UsersX from '@untitled-ui/icons-react/build/cjs/UsersX';
-import AddUsers from './addUsers';
+import Edit05 from '@untitled-ui/icons-react/build/cjs/Edit05';
+import Trash03 from '@untitled-ui/icons-react/build/cjs/Trash03';
 
 
 function Users() {
@@ -30,16 +33,20 @@ function Users() {
     const [selectedColumn, setSelectedColumn] = useState(null);
     const [filtersVisibility, setFiltersVisibility] = useState({});
     const [users, setUsers] = useState([]);
-    const [noUsers, setNoUsers] = useState(false);
+    const [noUsers, setNoUsers] = useState(true);
     const [columns, setColumns] = useState([]);
     const [validKeys, setValidKeys] = useState([]);
     const [showAddUsers, setShowAddUsers] = useState(false);
-    const [showModal, setShowModal] = useState(false); // State to control the modal visibility
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedUserData, setSelectedUserData] = useState({});
 
     const toggleAddUsers = () => {
         setShowAddUsers(!showAddUsers);
-        setShowModal(!showModal);
+        setShowAddModal(!showAddModal);
     };
+
 
     // Function to toggle the visibility of the filters in the table
     const toggleFilters = () => {
@@ -148,6 +155,7 @@ function Users() {
     }, [auth, userRole, userType]);
 
 
+
     useEffect(() => {
         if (users.length > 0) {
             const validKeys = Object.keys(users[0]).filter(key => userFields.hasOwnProperty(key));
@@ -158,9 +166,67 @@ function Users() {
                 Filter: DefaultColumnFilter,
             }));
 
+            if (isOrganization) {
+                // Adding action columns for Edit and Delete
+                mappedColumns.push({
+                    id: 'actions',
+                    Cell: ({ row }) => (
+                        <div>
+                            <Edit05 onClick={() => handleEdit(row.cells[11].value)} className='mx-2' style={{ cursor: 'pointer' }} />
+                            <Trash03 onClick={() => handleDelete(row.cells[11].value)} className='mx-2' style={{ cursor: 'pointer' }} />
+                        </div>
+                    ),
+                });
+            }
             setColumns(mappedColumns);
         }
     }, [users]);
+
+    const handleEdit = async (UserID) => {
+        try {
+            const response = await axios.get(`${ORG_GETUSERBYID}${UserID}`, {
+                headers: {
+                    'Authorization': auth
+                }
+            });
+            setSelectedUserData(response.data);
+            setShowEditModal(true);
+        } catch (error) {
+            console.error("Failed to find user:", error);
+        }
+    };
+
+    const handleDelete = async (UserID) => {
+        try {
+            const response = await axios.get(`${ORG_GETUSERBYID}${UserID}`, {
+                headers: {
+                    'Authorization': auth
+                }
+            });
+            setSelectedUserData(response.data);
+            setShowDeleteModal(true);
+        } catch (error) {
+            console.error("Failed to find user:", error);
+        }
+    };
+
+    const handleConfirmDelete = async (UserID) => {
+        try {
+            const response = await axios.delete(`${ORG_DELETEUSERBYID}${UserID}`, {
+                headers: {
+                    'Authorization': auth
+                }
+            });
+            console.log("User deleted successfully:", response);
+            window.location.reload();
+            setShowDeleteModal(false); // Close the confirmation modal
+        } catch (error) {
+            console.error("Failed to delete user:", error);
+            setShowDeleteModal(false); // Ensure the modal is closed even if the delete fails
+        }
+    };
+
+
 
     // create the table
     const {
@@ -285,24 +351,60 @@ function Users() {
                         </>
                     )}
                 </div>
-                {/* {isOrganization && showAddUsers && (
-                    <div className='d-flex justify-content-center align-items-center' style={{ height: '95vh' }}>
-                        {<AddUsers auth={auth} />}
-                    </div>
-                )} */}
                 {isOrganization && showAddUsers && (
                     <Modal
-                        show={showModal}
+                        show={showAddModal}
                         backdrop="static"
                         onHide={() => toggleAddUsers()}
                     >
                         <Modal.Header closeButton>
                         </Modal.Header>
                         <Modal.Body>
-                            <AddUsers auth={auth} />
+                            <AddUsers
+                                auth={auth}
+                                onSave={() => {
+                                    toggleAddUsers();
+                                    window.location.reload();
+                                }}
+                            />
                         </Modal.Body>
                     </Modal>
                 )}
+                {isOrganization && showEditModal && (
+                    <EditUser
+                        show={showEditModal}
+                        handleClose={() => setShowEditModal(false)}
+                        userData={selectedUserData}
+                        onSave={(updatedData) => {
+                            // Handle saving the updated user data
+                            console.log(updatedData);
+                            setShowEditModal(false);
+                            window.location.reload();
+                        }}
+                        auth={auth}
+                    />
+                )}
+                {isOrganization && showDeleteModal && (
+                    <Modal
+                        show={showDeleteModal}
+                        onHide={() => setShowDeleteModal(false)}
+                    >
+                        <Modal.Header closeButton />
+                        <Modal.Body>
+                            <div>
+                                تأكيد إلغاء المستخدم {selectedUserData.UserFName + ' ' + selectedUserData.UserLName}
+                            </div>
+                            <div className="alert alert-danger">
+                                لا يمكن التراجع عن هذه الخطوة
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button onClick={() => setShowDeleteModal(false)} className='button'>رجوع</button>
+                            <button  onClick={() => handleConfirmDelete(selectedUserData.UserID)} className='button'>تأكيد</button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
+
             </div>
         )
     }
