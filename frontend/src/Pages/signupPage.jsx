@@ -29,7 +29,7 @@ function SignupPage() {
     const [organizationConfirmPassword, setOrganizationConfirmPassword] = useState('');
     const [isConfirmPasswordEmpty, setIsConfirmPasswordEmpty] = useState(false);
     const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
-    const [createOrganizationAccess, setCreateOrganizationAccess] = useState();
+    const [createOrganizationSuccess, setCreateOrganizationSuccess] = useState();
     const [createOrganizationFail, setCreateOrganizationFail] = useState();
 
     useEffect(() => {
@@ -90,7 +90,7 @@ function SignupPage() {
 
         const codeRegex = /^[a-zA-Z]{2,4}$/;
         const isCodeValid = codeRegex.test(organizationCode);
-        const emailRegex = /^[_a-z0-9-]+(.[a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
+        const emailRegex = globalVariables.emailRegex;
         const isEmailValid = emailRegex.test(organizationEmail);
         const isPasswordEmpty = organizationPassword.trim() === '';
         const isNameEmpty = organizationName.trim() === '';
@@ -119,7 +119,7 @@ function SignupPage() {
             try {
                 const response = await axios.post(ORG_REGISTER, signupRequest);
                 setCreateOrganizationFail(null);
-                setCreateOrganizationAccess(response.data.msg);
+                setCreateOrganizationSuccess(response.data.msg);
 
                 setTimeout(() => {
                     navigate('/login');
@@ -146,9 +146,9 @@ function SignupPage() {
                             {createOrganizationFail}
                         </div>
                     }
-                    {createOrganizationAccess != null &&
+                    {createOrganizationSuccess != null &&
                         <div className="alert alert-success mb-4" role='alert'>
-                            {createOrganizationAccess}
+                            {createOrganizationSuccess}
                         </div>
                     }
                     <form className="inputs d-flex flex-column col-12 row-gap-1 px-3">
