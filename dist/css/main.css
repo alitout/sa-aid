@@ -1,0 +1,415 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+.mt-1_5 {
+  margin-top: 1.5rem;
+}
+
+.mb-1_5 {
+  margin-bottom: 1.5rem;
+}
+
+.ms-1_5 {
+  margin-left: 1.5rem;
+}
+
+.me-1_5 {
+  margin-right: 1.5rem;
+}
+
+.my-1_5 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.mx-1_5 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.m-1_5 {
+  margin: 1.5rem;
+}
+
+.pt-0_75 {
+  padding-top: 0.75rem;
+}
+
+.pb-0_75 {
+  padding-bottom: 0.75rem;
+}
+
+.ps-0_75 {
+  padding-left: 0.75rem;
+}
+
+.pe-0_75 {
+  padding-right: 0.75rem;
+}
+
+.px-0_75 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-0_75 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.p-0_75 {
+  padding: 0.75rem;
+}
+
+.pt-2_0 {
+  padding-top: 2rem;
+}
+
+.pb-2_0 {
+  padding-bottom: 2rem;
+}
+
+.ps-2_0 {
+  padding-left: 2rem;
+}
+
+.pe-2_0 {
+  padding-right: 2rem;
+}
+
+.px-2_0 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.py-2_0 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.p-2_0 {
+  padding: 2rem;
+}
+
+.pt-6_0 {
+  padding-top: 6rem;
+}
+
+.pb-6_0 {
+  padding-bottom: 6rem;
+}
+
+.ps-6_0 {
+  padding-left: 6rem;
+}
+
+.pe-6_0 {
+  padding-right: 6rem;
+}
+
+.px-6_0 {
+  padding-left: 6rem;
+  padding-right: 6rem;
+}
+
+.py-6_0 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.p-6_0 {
+  padding: 6rem;
+}
+
+.text-brown-100 {
+  color: #CDC1B8 !important;
+}
+
+.text-brown-200 {
+  color: #BCA691 !important;
+}
+
+.text-brown-300 {
+  color: #B29782 !important;
+}
+
+.text-brown-400 {
+  color: #81634B !important;
+}
+
+.text-brown-500 {
+  color: #835E54 !important;
+}
+
+.text-blue-100 {
+  color: #2176AE !important;
+}
+
+.text-green-500 {
+  color: #32936F !important;
+}
+
+.text-gray-200 {
+  color: #EAECF0 !important;
+}
+
+.text-gray-300 {
+  color: #D0D5DD !important;
+}
+
+.text-gray-500 {
+  color: #667085 !important;
+}
+
+.text-gray-600 {
+  color: #475467 !important;
+}
+
+.text-gray-700 {
+  color: #344054 !important;
+}
+
+.text-gray-900 {
+  color: #101828 !important;
+}
+
+.border-brown-500 {
+  border-color: #835E54 !important;
+}
+
+.bg-brown-200 {
+  background-color: #BCA691 !important;
+}
+
+.bg-brown-500 {
+  background-color: #835E54 !important;
+}
+
+.bg-green-500 {
+  background-color: #32936F !important;
+}
+
+.fs-0_875 {
+  font-size: 0.875rem;
+}
+
+.fs-1_25 {
+  font-size: 1.25rem;
+}
+
+.fs-1_5 {
+  font-size: 1.5rem;
+}
+
+.fw-100 {
+  font-weight: 100 !important;
+}
+
+.fw-200 {
+  font-weight: 200 !important;
+}
+
+.fw-300 {
+  font-weight: 300 !important;
+}
+
+.fw-400 {
+  font-weight: 400 !important;
+}
+
+.fw-500 {
+  font-weight: 500 !important;
+}
+
+.fw-600 {
+  font-weight: 600 !important;
+}
+
+.fw-700 {
+  font-weight: 700 !important;
+}
+
+.fw-800 {
+  font-weight: 800 !important;
+}
+
+.fw-900 {
+  font-weight: 900 !important;
+}
+
+.search-input {
+  background-image: url("https://cdn-icons-png.flaticon.com/512/622/622669.png");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 1rem) center;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+  width: calc(10rem + 15vw) !important;
+  max-width: 28rem !important;
+  padding-right: 3rem !important;
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    max-width: 20rem !important;
+    width: 70vw !important;
+  }
+}
+@media (max-Width: 767px) {
+  .search-input {
+    max-width: 28rem !important;
+    width: 70vw !important;
+  }
+}
+.button {
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.5rem;
+  border: 0;
+  background-color: #835E54;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  transition-duration: 0.5s;
+}
+
+.button:hover {
+  background: #32936F;
+  color: #FFFFFF;
+}
+
+input {
+  display: flex;
+  padding: 0.625rem 0.875rem;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: stretch;
+  border-radius: 0.5rem;
+  border: 1px solid #D0D5DD;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  font-size: 1.25rem !important;
+}
+
+.bi {
+  line-height: 0 !important;
+}
+
+* {
+  font-family: "Tajawal", sans-serif;
+  direction: rtl;
+}
+
+.navbar {
+  background-color: #FFFCFA;
+}
+
+.navLink {
+  transition: border-right 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-right: 0px solid transparent;
+}
+.navLink:hover {
+  border-right: 12px solid #32936F !important;
+  color: #835E54 !important;
+}
+
+.HeroSection {
+  background-image: url("../assets/distributions.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.HeroSection .content {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+}
+
+.SignUpPage .activeBtn,
+.LoginPage .activeBtn {
+  background-color: #32936F;
+}
+.SignUpPage Label,
+.LoginPage Label {
+  cursor: text;
+}
+.SignUpPage .backToLogin,
+.LoginPage .backToLogin {
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+.SignUpPage .backToLogin:hover,
+.LoginPage .backToLogin:hover {
+  color: #32936F !important;
+}
+
+@media (min-width: 576px) {
+  .LoginPage {
+    background-image: url("../assets//pattern.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .LoginPage .Login {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .LoginPage .Login .form {
+    border: 1px rgba(255, 255, 255, 0.88);
+    border-radius: 0.8rem;
+    background-color: rgba(255, 255, 255, 0.88) !important;
+  }
+}
+.PhoneInputCountrySelectArrow {
+  display: none !important;
+}
+
+.PhoneInputCountry {
+  margin-left: 0.5rem !important;
+}
+
+.activePage {
+  background-color: #CDC1B8 !important;
+  color: white !important;
+  border-radius: 0.375rem !important;
+}
+
+.offcanvas {
+  background-color: transparent !important;
+}
+
+.offcanvas.offcanvas-end {
+  top: 0;
+  right: 0;
+  max-width: 13rem;
+  border-left: 0;
+}
+
+th,
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  z-index: 1;
+}
+
+.offcanvas {
+  background-color: transparent !important;
+}
+
+.offcanvas.offcanvas-end {
+  top: 0;
+  right: 0;
+  max-width: 13rem;
+  border-left: 0;
+}/*# sourceMappingURL=main.css.map */

@@ -1,7 +1,7 @@
 import React from 'react';
-import DirectReport from './directReport';
+import DirectReport from './dashboardItems/directReport/directReport';
 import { useParams } from 'react-router-dom';
-import Users from './users';
+import Users from './dashboardItems/users/users';
 
 const ComponentMapping = {
     "directReport": DirectReport,
@@ -18,7 +18,7 @@ function DashboardItem() {
     const Component = ComponentMapping[params.route]; // Access the component based on the route parameter
 
     return (
-        <div>
+        <div className='my-4'>
             {Component ? <Component /> : <div>Loading...</div>} {/* Render the component if it exists */}
         </div>
     );

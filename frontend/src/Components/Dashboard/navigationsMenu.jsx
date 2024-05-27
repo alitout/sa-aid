@@ -110,7 +110,7 @@ function NavigationsMenu({ userType, toggleMenu }) {
     }
 
     return (
-        <div className='d-flex flex-column align-items-stretch border-start fixed bg-white' style={{ maxWidth: '18rem', height: '100vh' }}>
+        <div className='d-flex flex-column align-items-stretch border-start fixed bg-white' style={{ maxWidth: '13rem', height: '100vh' }}>
             {name &&
                 <div className="">
                     <div className='d-flex justify-content-start align-items-center fs-3 fw-700 text-white text-center p-3 py-4 bg-green-500 '>
