@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AccessDenied } from '../../../../Routes/Routes';
 import SearchBar from '../../searchBar';
 import axios from 'axios';
-import { ORG_DELETEUSERBYID, ORG_GETALLUSERS, ORG_GETUSERBYID } from '../../../../externalApi/ExternalUrls';
+import { ORG_DELETEUSERBYID, GETALLUSERS, GETUSERBYID } from '../../../../externalApi/ExternalUrls';
 import userFields from '../../../../fields/users.json';
 import { useTable, useFilters } from 'react-table';
 import Modal from 'react-bootstrap/Modal';
@@ -128,7 +128,7 @@ function Users() {
         }
         const getUsers = async () => {
             try {
-                const response = await axios.get(ORG_GETALLUSERS, {
+                const response = await axios.get(GETALLUSERS, {
                     headers: {
                         'Authorization': auth
                     }
@@ -177,7 +177,7 @@ function Users() {
 
     const handleEdit = async (UserID) => {
         try {
-            const response = await axios.get(`${ORG_GETUSERBYID}${UserID}`, {
+            const response = await axios.get(`${GETUSERBYID}${UserID}`, {
                 headers: {
                     'Authorization': auth
                 }
@@ -191,7 +191,7 @@ function Users() {
 
     const handleDelete = async (UserID) => {
         try {
-            const response = await axios.get(`${ORG_GETUSERBYID}${UserID}`, {
+            const response = await axios.get(`${GETUSERBYID}${UserID}`, {
                 headers: {
                     'Authorization': auth
                 }
