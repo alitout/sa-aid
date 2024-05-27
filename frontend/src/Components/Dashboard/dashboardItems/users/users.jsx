@@ -116,7 +116,7 @@ function Users() {
                 setIsDistributionsAdmin(true);
                 setIsBeneciariesAdmin(false);
                 setIsNotAdmin(false);
-            } else if (userRole === 'Beneciaries admin') {
+            } else if (userRole === 'Beneficiaries admin') {
                 setIsBeneciariesAdmin(true);
                 setIsDistributionsAdmin(false);
                 setIsNotAdmin(false);
