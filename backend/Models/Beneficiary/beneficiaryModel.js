@@ -107,6 +107,7 @@ BeneficiarySchema.pre('save', async function (next) {
             const BeneficiaryName = this.BeneficiaryFName + ' ' + this.BeneficiaryFatherName + ' ' + this.BeneficiaryLName;
             family.HeadOfFamilyName = BeneficiaryName;
             family.HeadOfFamilyPhone = this.BeneficiaryPhone;
+            family.HeadOfFamilyID = this.BeneficiaryID;
         }
 
         await family.save();

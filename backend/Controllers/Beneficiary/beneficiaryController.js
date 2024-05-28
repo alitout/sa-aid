@@ -22,6 +22,12 @@ const addBeneficiary = [verifyToken, async (req, res) => {
         return res.status(403).send("Access Denied: You can only add beneficiaries to families in your own organization");
     }
 
+    // Check if the family already has a head of family
+    if (family.HeadOfFamilyName && req.body.isHeadOfFamily && family.HeadOfFamilyID !== req.user.UserID) {
+        return res.status(400).send("رب أسرة واحد مسموح، هل تريد تغيير رب الأسرة؟");
+    }
+
+
     const newBeneficiary = new Beneficiary({
         BeneficiaryID: BeneficiaryID,
         FamilyID: FamilyID,
@@ -55,9 +61,9 @@ const addBeneficiary = [verifyToken, async (req, res) => {
             return res.status(400).send("Beneficiary Phone already exists");
         }
         // Proceed with the rest of the logic if the phone number is "لا يوجد" or not found
-        const oldBeneficiary = oldBeneficiaryID || oldBeneficiaryPhone?.BeneficiaryPhone !== "لا يوجد";
+        const oldBeneficiary = oldBeneficiaryID || (oldBeneficiaryPhone && oldBeneficiaryPhone?.BeneficiaryPhone !== "لا يوجد");
         if (oldBeneficiary) {
-            return console.log(oldBeneficiaryPhone.BeneficiaryPhone);
+            return console.log(oldBeneficiaryPhone)
             // return res.status(400).send("Beneficiary already exists");
         }
         const savedBeneficiary = await newBeneficiary.save();
@@ -67,6 +73,7 @@ const addBeneficiary = [verifyToken, async (req, res) => {
         });
     } catch (error) {
         res.status(400).json({ error: error.message });
+        console.log(error);
     }
 
 }];
@@ -93,6 +100,18 @@ const updateBeneficiaryById = [verifyToken, async (req, res) => {
             }
         }
 
+        // Fetch the family associated with the beneficiary being updated
+        const family = await Family.findOne({ FamilyID: req.body.FamilyID });
+
+        if (!family) {
+            return res.status(404).send("Family not found");
+        }
+
+        // Check if the family already has a head of family set
+        if (family.HeadOfFamilyName && req.body.isHeadOfFamily) {
+            return res.status(400).send("رب أسرة واحد مسموح، هل تريد تغيير رب الأسرة؟");
+        }
+
         const updatedBeneficiary = await Beneficiary.findOneAndUpdate(
             {
                 BeneficiaryID: req.params.id,
@@ -113,6 +132,7 @@ const updateBeneficiaryById = [verifyToken, async (req, res) => {
         res.status(400).json({ error: error });
     }
 }];
+
 
 
 
@@ -148,6 +168,7 @@ const deleteBeneficiaryById = [verifyToken, async (req, res) => {
         if (deletedBeneficiary.isHeadOfFamily) {
             family.HeadOfFamilyName = null;
             family.HeadOfFamilyPhone = null;
+            family.HeadOfFamilyID = null;
         }
 
         // Save the updated family document

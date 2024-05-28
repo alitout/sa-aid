@@ -16,6 +16,10 @@ const familySchema = new mongoose.Schema({
         type: [String],
         default: []
     },
+    HeadOfFamilyID: {
+        type: String,
+        // required: true
+    },
     HeadOfFamilyName: {
         type: String,
     },

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input'
 import axios from 'axios';
-import { ADDBENEFICIARY } from '../../../../externalApi/ExternalUrls';
+import { ADDBENEFICIARY, GETBENEFICIARYBYID, GETFAMILYBYID, UPDATEBENEFICIARYBYID, UPDATEFAMILYBYID } from '../../../../externalApi/ExternalUrls';
 import { globalVariables } from '../../../../Global/globalVariables';
 import Modal from 'react-bootstrap/Modal';
 
@@ -36,6 +36,7 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
     const [beneficiaryMedications, setBeneficiaryMedications] = useState(['لا يوجد']);
     const [isBeneficiaryHeadOfFamily, setIsBeneficiaryHeadOfFamily] = useState(false);
     const [isBeneficiaryActive, setIsBeneficiaryActive] = useState(true);
+    const [showOverrideModal, setShowOverrideModal] = useState(false);
     const [addBeneficiarySuccess, setAddBeneficiarySuccess] = useState();
     const [addBeneficiaryFail, setAddBeneficiaryFail] = useState();
 
@@ -183,9 +184,64 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
                 }, 3000);
             } catch (error) {
                 console.error(error);
-                setAddBeneficiaryFail(error.response.msg);
+                if (error.response && error.response.data === "رب أسرة واحد مسموح، هل تريد تغيير رب الأسرة؟") {
+                    setShowOverrideModal(true);
+                } else {
+                    // Handle other errors
+                    setAddBeneficiaryFail(error.response.msg);
+                }
             }
         };
+    }
+
+    const overrideHeadOfFamily = async (e) => {
+        e.preventDefault();
+
+        try {
+            const family = await axios.get(`${GETFAMILYBYID}${FamilyID}`,
+                {
+                    headers: {
+                        'Authorization': auth,
+                    }
+                });
+            const removeOldHeadOfFamilyRequest = {
+                "FamilyID": FamilyID,
+                "isHeadOfFamily": false
+            }
+            try {
+                const oldHeadOfFamily = await axios.patch(`${UPDATEBENEFICIARYBYID}${family.data.HeadOfFamilyID}`, removeOldHeadOfFamilyRequest,
+                    {
+                        headers: {
+                            'Authorization': auth,
+                        }
+                    });
+                const removeOldHeadOfFamilyFromFamilyRequest = {
+                    "HeadOfFamilyID": null,
+                    "HeadOfFamilyName": null,
+                    "HeadOfFamilyPhone": null
+                }
+                try {
+                    const removeOldHeadOfFamilyFromFamily = await axios.patch(`${UPDATEFAMILYBYID}${FamilyID}`, removeOldHeadOfFamilyFromFamilyRequest,
+                        {
+                            headers: {
+                                'Authorization': auth,
+                            }
+                        });
+                    console.log("removed old head of family");
+                    setShowOverrideModal(false);
+                    addBeneficiary(e);
+                }
+                catch (error) {
+                    console.error(error);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -483,6 +539,39 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
                             </div>
                         </div>
                     </form >
+                    {showOverrideModal &&
+                        <Modal
+                            show={showOverrideModal}
+                            onHide={() => setShowOverrideModal(false)}
+                            backdrop="static"
+                        >
+                            <Modal.Body>
+                                <div className="AddUser container d-flex flex-column col-12 m-auto">
+                                    <div className="alert alert-danger mb-4">
+                                        رب أسرة واحد مسموح، هل تريد تغيير رب الأسرة؟
+                                    </div>
+                                    <div className='inputs container d-flex flex-column row-gap-1 px-3'>
+                                        <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                            <button
+                                                type='submit'
+                                                className='button'
+                                                onClick={overrideHeadOfFamily}>
+                                                نعم
+                                            </button>
+                                        </div>
+                                        <div className='input input-code d-flex flex-column mb-1_25 gap-2 col-12 col-sm-4 flex-fill'>
+                                            <button
+                                                type='submit'
+                                                className='button'
+                                                onClick={() => setShowOverrideModal(false)}>
+                                                لا
+                                            </button>
+                                        </div>
+                                    </div >
+                                </div>
+                            </Modal.Body>
+                        </Modal>
+                    }
                 </div >
             </Modal.Body>
         </Modal>
