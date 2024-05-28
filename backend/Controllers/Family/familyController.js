@@ -79,6 +79,7 @@ const updateFamilyById = [verifyToken, async (req, res) => {
 }];
 
 
+// delete Family by organization and id
 const deleteFamilyById = [verifyToken, async (req, res) => {
     if (req.user.role !== 'Beneficiaries admin') {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
@@ -88,8 +89,15 @@ const deleteFamilyById = [verifyToken, async (req, res) => {
             FamilyID: req.params.id,
             FamilyOrganization: req.user.UserOrganization
         });
+        const toDeleteBeneficiaries = await Beneficiary.find({ FamilyID: req.params.id });
 
         if (deletedFamily) {
+            if (toDeleteBeneficiaries.length === 0) {
+                return res.status(200).json({
+                    msg: "Family Deleted Successfully",
+                    data: deletedFamily,
+                });
+            }
             const deleteBeneficiaries = await beneficiaryModel.deleteMany({
                 FamilyID: req.params.id,
             });
@@ -104,7 +112,6 @@ const deleteFamilyById = [verifyToken, async (req, res) => {
         res.status(400).json({ error: error });
     }
 }];
-
 
 
 // get all families by organization
