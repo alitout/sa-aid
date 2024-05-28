@@ -1,0 +1,7 @@
+{
+    "_id": "الرمز",
+    "StockOrganization": "المؤسسة",
+    "StockItem": "النوع",
+    "Quantity": "الكمية",
+    "ExpiryDate": "تاريخ انتهاء الصلاحية"
+}

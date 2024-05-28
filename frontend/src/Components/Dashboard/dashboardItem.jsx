@@ -4,13 +4,14 @@ import { useParams } from 'react-router-dom';
 import Users from './dashboardItems/users/users';
 import Families from './dashboardItems/families/families';
 import Beneficiaries from './dashboardItems/beneficiaries/beneficiaries';
+import Stock from './dashboardItems/stock/stock';
 
 const ComponentMapping = {
     "directReport": DirectReport,
     "users": Users,
     "families": Families,
     "beneficiaries": Beneficiaries,
-    // "stocks": Stocks,
+    "stocks": Stock,
     // "distribution": Distribution,
     // "settings": Settings
 };

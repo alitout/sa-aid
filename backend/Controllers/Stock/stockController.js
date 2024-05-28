@@ -42,7 +42,7 @@ const updateStockById = [verifyToken, async (req, res) => {
     try {
         const updatedStock = await Stock.findOneAndUpdate(
             {
-                StockID: req.params.id,
+                _id: req.params.id,
                 StockOrganization: req.user.UserOrganization
             },
             req.body,
@@ -70,10 +70,11 @@ const deleteStockById = [verifyToken, async (req, res) => {
     try {
         const deletedStock = await Stock.findOneAndDelete(
             {
-                StockID: req.params.id,
+                _id: req.params.id,
                 StockOrganization: req.user.UserOrganization
             }
         );
+
         if (!deletedStock) {
             return res.status(404).send("Stock not found");
         }
@@ -114,7 +115,7 @@ const getStockById = [verifyToken, async (req, res) => {
         const StockOrgCode = req.user.role === 'Organization' ? req.user.OrganizationCode : req.user.UserOrganization;
         const stock = await Stock.findOne(
             {
-                StockID: req.params.id,
+                _id: req.params.id,
                 StockOrganization: StockOrgCode
             }
         );

@@ -5,78 +5,88 @@ export const HEADER = {
 
 
 // register
-
-// organization
+    // organization
 export const ORG_REGISTER = 'http://localhost:3000/api/organization/register';
 
 
 // login
-
-// organization
+    // organization
 export const ORG_LOGIN = 'http://localhost:3000/api/organization/login';
-
-// user
+    // user
 export const USER_LOGIN = 'http://localhost:3000/api/user/login';
 
 
 // add
-
-// user
+    // user
 export const ORG_ADDUSER = 'http://localhost:3000/api/user/add';
-
-// family
+    // family
 export const ADDFAMILY = 'http://localhost:3000/api/family/add';
-
-// beneficiary
+    // beneficiary
 export const ADDBENEFICIARY = 'http://localhost:3000/api/beneficiary/add';
+    // stock
+        // type
+export const ADDSTOCKTYPE = 'http://localhost:3000/api/stock/stockType/add';
+        // item
+export const ADDSTOCKITEM = 'http://localhost:3000/api/stock/stockItem/add';
+        // stock
+export const ADDSTOCK = 'http://localhost:3000/api/stock/stock/add';
 
 
 // get
-
-// organization
-// Self
+    // organization
+        // Self
 export const ORG_GETSELF = 'http://localhost:3000/api/organization/getSelf';
-
-// users
-// Self
+    // users
+        // Self
 export const USER_GETSELF = 'http://localhost:3000/api/user/getSelf';
-// all
+        // all
 export const GETALLUSERS = 'http://localhost:3000/api/user/getAll';
-// by id
+        // by id
 export const GETUSERBYID = 'http://localhost:3000/api/user/getById/';
-
-// Families
-// all
+    // Families
+        // all
 export const GETALLFAMILIES = 'http://localhost:3000/api/family/getAll';
-// by id
+        // by id
 export const GETFAMILYBYID = 'http://localhost:3000/api/family/getById/';
-
-// beneficiaries
-// all
+    // beneficiaries
+        // all
 export const GETALLBENEFICIARIES = 'http://localhost:3000/api/beneficiary/getAll';
-// by id
+        // by id
 export const GETBENEFICIARYBYID = 'http://localhost:3000/api/beneficiary/getById/';
+    // stock
+        // type
+            // all
+export const GETALLSTOCKTYPES = 'http://localhost:3000/api/stock/stockType/getAll';
+        // item
+            // all
+export const GETALLSTOCKITEMS = 'http://localhost:3000/api/stock/stockItem/getAll';
+        // stock
+            // all
+export const GETALLSTOCK = 'http://localhost:3000/api/stock/stock/getAll';
+            // by id
+export const GETSTOCKBYID = 'http://localhost:3000/api/stock/stock/getById/';
+
 
 
 // update
-
-// user
+    // user
 export const ORG_UPDATEUSERBYID = 'http://localhost:3000/api/user/update/';
-
-// family
+    // family
 export const UPDATEFAMILYBYID = 'http://localhost:3000/api/family/update/';
-
-// beneficiary
+    // beneficiary
 export const UPDATEBENEFICIARYBYID = 'http://localhost:3000/api/beneficiary/update/';
+    // stock
+        // stock
+export const UPDATESTOCKBYID = 'http://localhost:3000/api/stock/stock/update/';
 
 
 // delete
-
-// user
+    // user
 export const ORG_DELETEUSERBYID = 'http://localhost:3000/api/user/delete/';
-
-// family
+    // family
 export const DELETEFAMILYBYID = 'http://localhost:3000/api/family/delete/';
-
-// beneficiary
+    // beneficiary
 export const DELETEBENEFICIARYBYID = 'http://localhost:3000/api/beneficiary/delete/';
+    // stock
+        // stock
+export const DELETESTOCKBYID = 'http://localhost:3000/api/stock/stock/delete/';
