@@ -82,9 +82,13 @@ const updateBeneficiaryById = [verifyToken, async (req, res) => {
     try {
         const phoneNumber = req.body.BeneficiaryPhone;
         if (phoneNumber !== "لا يوجد") {
-            const existingBeneficiaryWithSamePhone = await Beneficiary.findOne({ BeneficiaryPhone: phoneNumber });
+            // Exclude the beneficiary being updated from the check
+            const existingBeneficiaryWithSamePhone = await Beneficiary.findOne({
+                BeneficiaryPhone: phoneNumber,
+                BeneficiaryID: { $ne: req.params.id } // Exclude the current beneficiary by ID
+            });
 
-            if (existingBeneficiaryWithSamePhone && existingBeneficiaryWithSamePhone._id.toString() !== req.params.id) {
+            if (existingBeneficiaryWithSamePhone) {
                 return res.status(400).send("Beneficiary Phone already exists");
             }
         }
@@ -109,6 +113,7 @@ const updateBeneficiaryById = [verifyToken, async (req, res) => {
         res.status(400).json({ error: error });
     }
 }];
+
 
 
 // delete beneficiary by organization and id
