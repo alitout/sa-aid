@@ -96,10 +96,10 @@ const EditBeneficiary = ({ show, handleClose, beneficiaryData, onSave, auth }) =
 
     const handlePhoneNumberChange = (e) => {
         setBeneficiaryPhoneNumber(e);
+        console.log("beneficiaryPhoneNumber: ", beneficiaryPhoneNumber)
     }
 
     const handleMedicationsChange = (e) => {
-        // setBeneficiaryMedications(e.target.value.split(',') || e.target.value.split('،'));
         let medicationsArray = e.target.value.split(',') || e.target.value.split('،');
         if (medicationsArray.length === 0) {
             medicationsArray = ["لا يوجد"];
@@ -138,7 +138,8 @@ const EditBeneficiary = ({ show, handleClose, beneficiaryData, onSave, auth }) =
 
         if (!isFNameEmpty && !isLNameEmpty && !isFatherNameEmpty && !isNationalityEmpty && !isGenderEmpty && !isDOBEmpty && !isSocialStateEmpty && !isEducationLevelEmpty) {
             const medicationsString = beneficiaryMedications.join(',') || beneficiaryMedications.join('،') || "لا يوجد";
-
+            const phoneNumber = beneficiaryPhoneNumber || "لا يوجد";
+            console.log("phoneNumber: ", phoneNumber);
             const editBeneficiaryRequest = {
                 "BeneficiaryFName": beneficiaryFName,
                 "BeneficiaryLName": beneficiaryLName,
@@ -152,7 +153,7 @@ const EditBeneficiary = ({ show, handleClose, beneficiaryData, onSave, auth }) =
                 "BeneficiaryPlaceOfWork": beneficiaryPlaceOfWork,
                 "BeneficiaryJob": beneficiaryJob,
                 "BeneficiarySalary": beneficiarySalary,
-                "BeneficiaryPhoneNumber": beneficiaryPhoneNumber,
+                "BeneficiaryPhone": phoneNumber,
                 "BeneficiaryMedications": medicationsString,
                 "isHeadOfFamily": isBeneficiaryHeadOfFamily,
                 "isBeneficiaryActive": isBeneficiaryActive
@@ -170,8 +171,8 @@ const EditBeneficiary = ({ show, handleClose, beneficiaryData, onSave, auth }) =
                     onSave(editBeneficiaryRequest);
                 }, 3000);
             } catch (error) {
-                console.error(error);
-                setEditBeneficiaryFail(error.response.msg);
+                console.error(error.response.data);
+                setEditBeneficiaryFail(error.response.data);
             }
         };
     }

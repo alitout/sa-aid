@@ -49,13 +49,16 @@ const addBeneficiary = [verifyToken, async (req, res) => {
         if (oldBeneficiaryID) {
             return res.status(400).send("Beneficiary ID already exists");
         }
+        // Check if the phone number is "لا يوجد", since we allow multiple beneficiaries to have this value
         const oldBeneficiaryPhone = await Beneficiary.findOne({ BeneficiaryPhone: req.body.BeneficiaryPhone });
-        if (oldBeneficiaryPhone) {
+        if (oldBeneficiaryPhone && oldBeneficiaryPhone.BeneficiaryPhone !== "لا يوجد") {
             return res.status(400).send("Beneficiary Phone already exists");
         }
-        const oldBeneficiary = oldBeneficiaryID || oldBeneficiaryPhone;
+        // Proceed with the rest of the logic if the phone number is "لا يوجد" or not found
+        const oldBeneficiary = oldBeneficiaryID || oldBeneficiaryPhone?.BeneficiaryPhone !== "لا يوجد";
         if (oldBeneficiary) {
-            return res.status(400).send("Beneficiary already exists");
+            return console.log(oldBeneficiaryPhone.BeneficiaryPhone);
+            // return res.status(400).send("Beneficiary already exists");
         }
         const savedBeneficiary = await newBeneficiary.save();
         res.status(200).json({
@@ -63,8 +66,9 @@ const addBeneficiary = [verifyToken, async (req, res) => {
             data: savedBeneficiary,
         });
     } catch (error) {
-        res.status(400).json({ error: error });
+        res.status(400).json({ error: error.message });
     }
+
 }];
 
 
@@ -76,14 +80,24 @@ const updateBeneficiaryById = [verifyToken, async (req, res) => {
     }
 
     try {
+        const phoneNumber = req.body.BeneficiaryPhone;
+        if (phoneNumber !== "لا يوجد") {
+            const existingBeneficiaryWithSamePhone = await Beneficiary.findOne({ BeneficiaryPhone: phoneNumber });
+
+            if (existingBeneficiaryWithSamePhone && existingBeneficiaryWithSamePhone._id.toString() !== req.params.id) {
+                return res.status(400).send("Beneficiary Phone already exists");
+            }
+        }
+
         const updatedBeneficiary = await Beneficiary.findOneAndUpdate(
             {
                 BeneficiaryID: req.params.id,
-                BeneficiaryOrganization: req.user.UserOrganization // Add this line
+                BeneficiaryOrganization: req.user.UserOrganization
             },
             req.body,
             { new: true }
         );
+
         if (!updatedBeneficiary) {
             return res.status(404).send("Beneficiary not found");
         }

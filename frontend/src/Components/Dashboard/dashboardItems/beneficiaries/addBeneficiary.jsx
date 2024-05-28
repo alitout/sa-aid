@@ -32,7 +32,7 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
     const [beneficiaryPlaceOfWork, setBeneficiaryPlaceOfWork] = useState('لا يوجد');
     const [beneficiaryJob, setBeneficiaryJob] = useState('لا يوجد');
     const [beneficiarySalary, setBeneficiarySalary] = useState('0');
-    const [beneficiaryPhoneNumber, setBeneficiaryPhoneNumber] = useState('لا يوجد');
+    const [beneficiaryPhoneNumber, setBeneficiaryPhoneNumber] = useState('');
     const [beneficiaryMedications, setBeneficiaryMedications] = useState(['لا يوجد']);
     const [isBeneficiaryHeadOfFamily, setIsBeneficiaryHeadOfFamily] = useState(false);
     const [isBeneficiaryActive, setIsBeneficiaryActive] = useState(true);
@@ -126,6 +126,7 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
         e.preventDefault();
 
         const medicationsString = beneficiaryMedications.join(',') || beneficiaryMedications.join('،') || 'لا يوجد';
+        const phoneNumber = beneficiaryPhoneNumber ? beneficiaryPhoneNumber : 'لا يوجد';
 
         const isIDEmpty = beneficiaryID === '';
         const isFNameEmpty = beneficiaryFName === '';
@@ -163,7 +164,7 @@ function AddBeneficiaries({ show, handleClose, auth, onSave, FamilyID }) {
                 "BeneficiaryPlaceOfWork": beneficiaryPlaceOfWork,
                 "BeneficiaryJob": beneficiaryJob,
                 "BeneficiarySalary": beneficiarySalary,
-                "BeneficiaryPhone": beneficiaryPhoneNumber,
+                "BeneficiaryPhone": phoneNumber,
                 "BeneficiaryMedications": medicationsString,
                 "isHeadOfFamily": isBeneficiaryHeadOfFamily,
                 "isBeneficiaryActive": isBeneficiaryActive

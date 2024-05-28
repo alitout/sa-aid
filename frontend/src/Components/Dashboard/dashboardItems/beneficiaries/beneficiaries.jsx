@@ -349,17 +349,6 @@ function Beneficiaries() {
                         )}
                     </>
                 </div>
-                {/* {isBeneficiariesAdmin && showAddModal && (
-                    <AddBeneficiaries
-                        show={showAddModal}
-                        handleClose={() => setShowAddModal(false)}
-                        onSave={() => {
-                            setShowAddModal(false);
-                            window.location.reload();
-                        }}
-                        auth={auth}
-                    />
-                )} */}
                 {isBeneficiariesAdmin && showEditModal && (
                     <EditBeneficiary
                         show={showEditModal}
