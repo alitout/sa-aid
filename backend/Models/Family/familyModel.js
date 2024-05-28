@@ -57,7 +57,6 @@ const familySchema = new mongoose.Schema({
     },
     FamilyHomePhoneNumber: {
         type: String,
-        required: true
     },
     HaveCar: {
         type: Boolean,
@@ -82,13 +81,13 @@ familySchema.pre('save', async function (next) {
 
     try {
         const familyOrganization = this.FamilyOrganization;
-        const cityPrefix = this.FamilyCity.substring(0, 3).toUpperCase();
+        const cityPrefix = this.FamilyCity.toUpperCase();
         const counter = await Counter.findByIdAndUpdate(
             { _id: cityPrefix },
             { $inc: { seq: 1 } },
             { new: true, upsert: true }
         );
-        this.FamilyID = `${familyOrganization}_${cityPrefix}${counter.seq.toString().padStart(3, '0')}`;
+        this.FamilyID = `${familyOrganization}_${cityPrefix}${counter.seq.toString().padStart(4, '0')}`;
         next();
     } catch (error) {
         return next(error);

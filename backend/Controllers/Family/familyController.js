@@ -31,11 +31,12 @@ const addFamily = [verifyToken, async (req, res) => {
         if (oldAddress) {
             return res.status(400).send("Family Address already exists");
         }
-        const oldPhone = await Family.findOne({ FamilyHomePhoneNumber: FamilyHomePhoneNumber });
-        if (oldPhone) {
-            return res.status(400).send("Family Phone already exists");
+
+        const oldPhone = await Beneficiary.findOne({ FamilyHomePhoneNumber: FamilyHomePhoneNumber });
+        if (oldPhone && oldPhone.FamilyHomePhoneNumber !== "لا يوجد") {
+            return res.status(400).send("Home Phone already exists");
         }
-        const oldFamily = oldAddress || oldPhone;
+        const oldFamily = oldAddress || (oldPhone && oldPhone?.FamilyHomePhoneNumber !== "لا يوجد");
         if (oldFamily) {
             return res.status(400).send("Family already exists");
         }

@@ -22,9 +22,7 @@ function AddFamily({ show, handleClose, auth, onSave }) {
     const [isFamilyFloorEmpty, setIsFamilyFloorEmpty] = useState(false);
     const [familyFloorPart, setFamilyFloorPart] = useState('');
     const [isFamilyFloorPartEmpty, setIsFamilyFloorPartEmpty] = useState(false);
-    const [familyHomePhoneNumber, setFamilyHomePhoneNumber] = useState('');
-    const [isFamilyHomePhoneNumberEmpty, setIsFamilyHomePhoneNumberEmpty] = useState(false);
-    const [isFamilyHomePhoneNumberValid, setIsFamilyHomePhoneNumberValid] = useState(true);
+    const [familyHomePhoneNumber, setFamilyHomePhoneNumber] = useState('لا يوجد');
     const [familyHaveCar, setFamilyHaveCar] = useState(false);
     const [familyType, setFamilyType] = useState('');
     const [isFamilyTypeEmpty, setIsFamilyTypeEmpty] = useState(false);
@@ -64,8 +62,6 @@ function AddFamily({ show, handleClose, auth, onSave }) {
 
     const handleFamilyHomePhoneNumberChange = (e) => {
         setFamilyHomePhoneNumber(e);
-        setIsFamilyHomePhoneNumberEmpty(false);
-        setIsFamilyHomePhoneNumberValid(true);
     }
 
     const handleFamilyHaveCarChange = (e) => {

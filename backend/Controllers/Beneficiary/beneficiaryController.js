@@ -63,8 +63,7 @@ const addBeneficiary = [verifyToken, async (req, res) => {
         // Proceed with the rest of the logic if the phone number is "لا يوجد" or not found
         const oldBeneficiary = oldBeneficiaryID || (oldBeneficiaryPhone && oldBeneficiaryPhone?.BeneficiaryPhone !== "لا يوجد");
         if (oldBeneficiary) {
-            return console.log(oldBeneficiaryPhone)
-            // return res.status(400).send("Beneficiary already exists");
+            return res.status(400).send("Beneficiary already exists");
         }
         const savedBeneficiary = await newBeneficiary.save();
         res.status(200).json({

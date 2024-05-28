@@ -98,6 +98,8 @@ const EditFamily = ({ show, handleClose, familyData, onSave, auth }) => {
         setIsFamilyTypeEmpty(isFamilyTypeEmpty);
 
         if (!isFamilyCountryEmpty && !isFamilyCityEmpty && !isFamilyStreetEmpty && !isFamilyBuildingEmpty && !isFamilyFloorEmpty && !isFamilyFloorPartEmpty && !isFamilyTypeEmpty) {
+            const phoneNumber = familyHomePhoneNumber || "لا يوجد";
+            
             const editFamilyRequest = {
                 "FamilyCountry": familyCountry,
                 "FamilyCity": familyCity,
@@ -105,7 +107,7 @@ const EditFamily = ({ show, handleClose, familyData, onSave, auth }) => {
                 "FamilyBuilding": familyBuilding,
                 "FamilyFloor": familyFloor,
                 "FamilyFloorPart": familyFloorPart,
-                "FamilyHomePhoneNumber": familyHomePhoneNumber,
+                "FamilyHomePhoneNumber": phoneNumber,
                 "HaveCar": familyHaveCar,
                 "Type": familyType
             }
