@@ -157,6 +157,7 @@ function Families() {
         if (families.length > 0) {
             const validKeys = Object.keys(families[0]).filter(key => familyFields.hasOwnProperty(key));
             setValidKeys(validKeys);
+            console.log(validKeys)
             const mappedColumns = validKeys.map(key => ({
                 Header: familyFields[key],
                 accessor: key,

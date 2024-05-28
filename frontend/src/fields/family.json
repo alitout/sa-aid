@@ -1,4 +1,6 @@
 {
+    "FamilyID": "رمز العائلة",
+    "HeadOfFamilyName": "اسم رب الأسرة",
     "FamilyMembers": "عدد أفراد العائلة",
     "FamilyCountry": "البلد",
     "FamilyCity": "المنطقة",
@@ -8,6 +10,5 @@
     "FamilyFloorPart": "الجهة",
     "FamilyHomePhoneNumber": "الهاتف الأرضي",
     "HaveCar": "هل تمتلك سيارة",
-    "Type": "القرار",
-    "FamilyID": "رمز العائلة"
+    "Type": "القرار"
 }
