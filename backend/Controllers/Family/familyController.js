@@ -1,6 +1,7 @@
 const Family = require('../../Models/Family/familyModel');
 const verifyToken = require("../../Functions/verifyToken");
 const Beneficiary = require('../../Models/Beneficiary/beneficiaryModel');
+const beneficiaryModel = require('../../Models/Beneficiary/beneficiaryModel');
 
 // add Family
 const addFamily = [verifyToken, async (req, res) => {
@@ -78,30 +79,32 @@ const updateFamilyById = [verifyToken, async (req, res) => {
 }];
 
 
-// delete Family by organization and id
 const deleteFamilyById = [verifyToken, async (req, res) => {
-    // Check if the authenticated entity is a Beneficiaries Admin
     if (req.user.role !== 'Beneficiaries admin') {
         return res.status(403).send("Access Denied: Only a Beneficiaries Admin can access this");
     }
     try {
-        const deletedFamily = await Family.findOneAndDelete(
-            {
+        const deletedFamily = await Family.findOneAndDelete({
+            FamilyID: req.params.id,
+            FamilyOrganization: req.user.UserOrganization
+        });
+
+        if (deletedFamily) {
+            const deleteBeneficiaries = await beneficiaryModel.deleteMany({
                 FamilyID: req.params.id,
-                FamilyOrganization: req.user.UserOrganization
-            }
-        );
-        if (!deletedFamily) {
+            });
+            res.status(200).json({
+                msg: "Family and Users Deleted Successfully",
+                data: { ...deletedFamily, deletedUsers },
+            });
+        } else {
             return res.status(404).send("Family not found");
         }
-        res.status(200).json({
-            msg: "Family Deleted Successfully",
-            data: deletedFamily,
-        });
     } catch (error) {
         res.status(400).json({ error: error });
     }
 }];
+
 
 
 // get all families by organization
