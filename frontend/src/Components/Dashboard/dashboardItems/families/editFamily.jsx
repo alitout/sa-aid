@@ -111,7 +111,7 @@ const EditFamily = ({ show, handleClose, familyData, onSave, auth }) => {
             }
 
             try {
-                const response = await axios.post(`${UPDATEFAMILYBYID}${FamilyID}`, editFamilyRequest, {
+                const response = await axios.patch(`${UPDATEFAMILYBYID}${FamilyID}`, editFamilyRequest, {
                     headers: {
                         'Authorization': auth,
                     }

@@ -15,6 +15,7 @@ import UserPlus01 from '@untitled-ui/icons-react/build/cjs/UserPlus01';
 import UsersX from '@untitled-ui/icons-react/build/cjs/UsersX';
 import Edit05 from '@untitled-ui/icons-react/build/cjs/Edit05';
 import Trash03 from '@untitled-ui/icons-react/build/cjs/Trash03';
+import AddBeneficiaries from '../beneficiaries/addBeneficiary';
 
 
 
@@ -39,6 +40,7 @@ function Families() {
     const [columns, setColumns] = useState([]);
     const [validKeys, setValidKeys] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showAddBeneficiaryModal, setShowAddBeneficiaryModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [SelectedFamilyData, setSelectedFamilyData] = useState({});
@@ -169,6 +171,7 @@ function Families() {
                         <div>
                             <Edit05 onClick={() => handleEdit(row.cells[10].value)} className='mx-2' style={{ cursor: 'pointer' }} />
                             <Trash03 onClick={() => handleDelete(row.cells[10].value)} className='mx-2' style={{ cursor: 'pointer' }} />
+                            <UserPlus01 onClick={() => handleAddBeneficiary(row.cells[10].value)} className='mx-2' style={{ cursor: 'pointer' }} />
                         </div>
                     ),
                 });
@@ -222,6 +225,19 @@ function Families() {
         }
     };
 
+    const handleAddBeneficiary = async (FamilyID) => {
+        try {
+            const response = await axios.get(`${GETFAMILYBYID}${FamilyID}`, {
+                headers: {
+                    'Authorization': auth
+                }
+            });
+            setSelectedFamilyData(response.data);
+            setShowAddBeneficiaryModal(true);
+        } catch (error) {
+            console.error("Failed to find family:", error);
+        }
+    };
 
 
     // create the table
@@ -387,6 +403,18 @@ function Families() {
                             <button onClick={() => handleConfirmDelete(SelectedFamilyData.FamilyID)} className='button'>تأكيد</button>
                         </Modal.Footer>
                     </Modal>
+                )}
+                {isBeneficiariesAdmin && showAddBeneficiaryModal && (
+                    <AddBeneficiaries
+                        show={showAddBeneficiaryModal}
+                        handleClose={() => setShowAddBeneficiaryModal(false)}
+                        onSave={() => {
+                            setShowAddBeneficiaryModal(false);
+                            window.location.reload();
+                        }}
+                        auth={auth}
+                        FamilyID={SelectedFamilyData.FamilyID}
+                    />
                 )}
 
             </div>
