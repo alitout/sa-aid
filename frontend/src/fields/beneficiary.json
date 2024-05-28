@@ -1,0 +1,20 @@
+{
+    "BeneficiaryID": "رمز المستفيد",
+    "FamilyID": "رمز العائلة",
+    "BeneficiaryFName": "اسم المستفيد",
+    "BeneficiaryLName": "اسم العائلة",
+    "BeneficiaryFatherName": "اسم الأب",
+    "BeneficiaryNationality": "الجنسية",
+    "BeneficiaryGender": "الجنس",
+    "BeneficiaryDOB": "تاريخ الميلاد",
+    "BeneficiarySocialState": "الحالة الاجتماعية",
+    "BeneficiaryEducationLevel": "المستوى التعليمي",
+    "BeneficiaryMajor": "الاختصاص",
+    "BeneficiaryPlaceOfWork": "مكان العمل",
+    "BeneficiaryJob": "الوظيفة",
+    "BeneficiarySalary": "الراتب الشهري $",
+    "BeneficiaryPhone": "رقم الهاتف",
+    "BeneficiaryMedications": "الأمراض المزمنة",
+    "isHeadOfFamily": "رب الأسرة",
+    "isBeneficiaryActive": "Active"
+}
